@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">Рецептайзер</string>
+    <string name="activity_filter_Title">Мои рецепты</string>
+    <string name="activity_filter_filterName">Название рецепта</string>
+    <string name="activity_new_recipe_title">Новый рецепт</string>
+    <string name="activity_new_recipe_name_recipe">Название рецепта</string>
+    <string name="activity_new_recipe_category">Категория</string>
+    <string name="activity_new_recipe_kitchen">Кухня</string>
+    <string name="activity_new_recipe_preferences">Предпочтения</string>
+    <string name="activity_new_recipe_time">Время приготовления</string>
+    <string name="activity_new_recipe_min">мин.</string>
+    <string name="activity_new_recipe_portions">Колличество порций</string>
+    <string name="activity_new_recipe_ingredients">Ингредиенты</string>
+    <string name="activity_new_recipe_quantity">Кол-во</string>
+    <string name="activity_new_recipe_ed">Ед.</string>
+    <string name="activity_new_recipe_number">№</string>
+    <string name="activity_new_recipe_descriptions">Описание</string>
+    <string name="activity_recipe_time">Время</string>
+    <string name="activity_recipe_min">мин.</string>
+    <string name="activity_recipe_portions">Порции</string>
+    <string name="activity_recipe_persons">перс.</string>
+    <string name="activity_recipe_ingredients">Ингредиенты</string>
+    <string name="activity_recipe_quantity">Кол-во</string>
+    <string name="activity_recipe_ed">Ед.</string>
+    <string name="activity_recipe_number">№</string>
+    <string name="activity_recipe_descriptions">Описание</string>
+    <string name="item_filter_min">мин</string>
+
+    <string-array name="TABLE1_FILTER">
+        <item>Категория блюда</item>
+        <item>Кухня</item>
+        <item>Предпочтения</item>
+    </string-array>
+
+    <string-array name="TABLE1_COLUMN_CATEGORY">
+        <item>Все</item>
+        <item>Завтрак</item>
+        <item>Закуски</item>
+        <item>Салаты</item>
+        <item>Супы</item>
+        <item>Основные блюда</item>
+        <item>Паста и ризотто</item>
+        <item>Гарниры</item>
+        <item>Выпечка</item>
+        <item>Десерты</item>
+        <item>Напитки</item>
+    </string-array>
+
+    <string-array name="TABLE1_COLUMN_KITCHEN">
+        <item>Все</item>
+        <item>Русская</item>
+        <item>Европейская</item>
+        <item>Кавказская</item>
+        <item>Американская</item>
+        <item>Азиатская</item>
+        <item>Латиноамериканская</item>
+        <item>Ближневосточная</item>
+    </string-array>
+
+    <string-array name="TABLE1_COLUMN_PREFERENCES">
+        <item>Все</item>
+        <item>Мясные блюда</item>
+        <item>Рыбные блюда</item>
+        <item>Вегетарианские блюда</item>
+        <item>Постная еда</item>
+        <item>Низкокалорийная еда</item>
+        <item>Детское меню</item>
+        <item>Острые блюда</item>
+    </string-array>
+
+    <string-array name="TABLE2_COLUMN_MEASURE">
+        <item>кг</item>
+        <item>гр</item>
+        <item>ст</item>
+        <item>ст.л</item>
+        <item>ч.л</item>
+        <item>щеп</item>
+        <item>л</item>
+        <item>мл</item>
+        <item>шт</item>
+        <item>уп</item>
+        <item>банка</item>
+        <item>по вк</item>
+    </string-array>
+
+    <string-array name="TABLE1_COLUMN_PORTION">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="UseCompoundDrawables"
+                android:orientation="vertical">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#1A000000"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp">
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/Recipe_item_table2_TABLE2_COLUMN_INGREDIENTS"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:textSize="16sp"/>
+        <TextView
+                android:id="@+id/Recipe_item_table2_TABLE2_COLUMN_QUANTITY"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="16sp"/>
+        <TextView
+                android:id="@+id/Recipe_item_table2_TABLE2_COLUMN_MEASURE"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="16sp"/>
+    </LinearLayout>
+
+</LinearLayout>
