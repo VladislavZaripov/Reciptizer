@@ -23,25 +23,43 @@ public class Activity_Filter_Server  extends Activity_Filter {
     RecipeFilter recipeFilter;
 
     @Override
-    protected void prepareActivity() {
-        super.prepareActivity();
-
-        LinearLayout linearLayout = findViewById(R.id.Filter_LL_Title);
-        linearLayout.removeView(findViewById(R.id.Filter_newRecipe));
-        linearLayout.setBackgroundResource(R.color.FilterRecipeServerSetStatusBarColor);
-
-        TextView filter_Title = findViewById(R.id.Filter_Title);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) filter_Title.getLayoutParams();
-        params.setMargins(0,0,0,0);
-        filter_Title.setLayoutParams(params);
-        filter_Title.setText("Все рецепты");
-
-        final EditText filterName = findViewById(R.id.Filter_filterName);
-        filterName.setBackground(getDrawable(R.drawable.search_name_server));
+    protected int getColorForNavigationBar() {
+        return R.color.FilterRecipeServerSetStatusBarColor;
     }
 
     @Override
-    protected void createRecyclerView() {
+    protected void createLinearLayoutTitle(LinearLayout linearLayoutTitle) {
+        super.createLinearLayoutTitle(linearLayoutTitle);
+
+        linearLayoutTitle.setBackgroundResource(R.color.FilterRecipeServerSetStatusBarColor);
+    }
+
+    @Override
+    protected void createTextViewTitle(TextView textViewTitle) {
+        super.createTextViewTitle(textViewTitle);
+
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) textViewTitle.getLayoutParams();
+        params.setMarginStart(0);
+        textViewTitle.setLayoutParams(params);
+        textViewTitle.setText("Все рецепты");
+    }
+
+    @Override
+    protected void createButtonNewRecipe(Button buttonNewRecipe) {
+        super.createButtonNewRecipe(buttonNewRecipe);
+
+        ((LinearLayout) buttonNewRecipe.getParent()).removeView(buttonNewRecipe);
+    }
+
+    @Override
+    protected void createEditTextRecipeName(EditText editTextRecipeName) {
+        super.createEditTextRecipeName(editTextRecipeName);
+
+        editTextRecipeName.setBackground(getDrawable(R.drawable.search_name_server));
+    }
+
+    @Override
+    protected void setContentIntoRecyclerView() {
         Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: createRecyclerView");
 
         if (recipeFilter==null) {
@@ -60,10 +78,10 @@ public class Activity_Filter_Server  extends Activity_Filter {
             ArrayList<Table1> refreshTable = new ArrayList<>();
             for(Table1 table : recipeFilter.table1)
             {
-                if ((table.TABLE1_COLUMN_RECIPE.toLowerCase().contains(RECIPE.toLowerCase()) || RECIPE.equals("Название рецепта")) &&
-                        (table.TABLE1_COLUMN_CATEGORY.equals(CATEGORY) || CATEGORY.equals("Все")) &&
-                        (table.TABLE1_COLUMN_KITCHEN.equals(KITCHEN) || KITCHEN.equals("Все")) &&
-                        (table.TABLE1_COLUMN_PREFERENCES.equals(PREFERENCES) || PREFERENCES.equals("Все")))
+                if ((table.TABLE1_COLUMN_RECIPE.toLowerCase().contains(currentValue_RECIPE.toLowerCase()) || currentValue_RECIPE.equals("Название рецепта")) &&
+                        (table.TABLE1_COLUMN_CATEGORY.equals(currentValue_CATEGORY) || currentValue_CATEGORY.equals("Все")) &&
+                        (table.TABLE1_COLUMN_KITCHEN.equals(currentValue_KITCHEN) || currentValue_KITCHEN.equals("Все")) &&
+                        (table.TABLE1_COLUMN_PREFERENCES.equals(currentValue_PREFERENCES) || currentValue_PREFERENCES.equals("Все")))
                     refreshTable.add(table);
             }
             MyAdapter myAdapter = new MyAdapter(refreshTable);
@@ -72,7 +90,7 @@ public class Activity_Filter_Server  extends Activity_Filter {
     }
 
     @Override
-    protected Intent getIntentForRecipe() {
+    protected Intent setIntentActivityForClickRecipe() {
         Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: getIntentForRecipe");
 
         return new Intent(this, Activity_Recipe_Server.class);
@@ -120,10 +138,5 @@ public class Activity_Filter_Server  extends Activity_Filter {
             }
         }
         imageViewImg.setTag(imgName);
-    }
-
-    @Override
-    protected int getColorForNavigationBar() {
-        return R.color.FilterRecipeServerSetStatusBarColor;
     }
 }
