@@ -20,7 +20,6 @@ import reciptizer.Activity_Main;
 import reciptizer.Common.Helpers.ConstantHelper;
 import reciptizer.Common.Recipe.RecipeFilter;
 import reciptizer.Common.Recipe.Table1;
-import java.util.ArrayList;
 
 import static reciptizer.Common.Helpers.AnimHelper.*;
 
@@ -28,13 +27,13 @@ public class Activity_Filter extends Activity {
 
     protected String currentValue_RECIPE, currentValue_CATEGORY, currentValue_KITCHEN, currentValue_PREFERENCES;
     protected RecyclerView recyclerView;
+    protected RecipeFilter recipeFilter;
 
     private String[] values_TABLE1_COLUMN_CATEGORY;
     private String[] values_TABLE1_COLUMN_KITCHEN;
     private String[] values_TABLE1_COLUMN_PREFERENCES;
     private Spinner spinner_TABLE1_COLUMN_CATEGORY, spinner_TABLE1_COLUMN_KITCHEN, spinner_TABLE1_COLUMN_PREFERENCES;
     private ImageView imageView_TABLE1_COLUMN_CATEGORY,imageView_TABLE1_COLUMN_KITCHEN,imageView_TABLE1_COLUMN_PREFERENCES;
-    private Intent intent;
     private boolean isSpinnersWereClicked = false;
 
     @Override
@@ -171,7 +170,7 @@ public class Activity_Filter extends Activity {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        intent = new Intent(Activity_Filter.this, Activity_New_Edit_Recipe.class);
+                        Intent intent = new Intent(Activity_Filter.this, Activity_New_Edit_Recipe.class);
                         startActivity(intent);
                     }
                 };
@@ -309,60 +308,82 @@ public class Activity_Filter extends Activity {
     }
 
     protected void setContentIntoRecyclerView() {
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: createRecyclerView");
+        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: setContentIntoRecyclerView");
 
-        RecipeFilter recipeFilter = DB.getRecipeFilterResult(currentValue_RECIPE, currentValue_CATEGORY, currentValue_KITCHEN, currentValue_PREFERENCES);
+        recipeFilter = DB.getRecipeFilterResult(currentValue_RECIPE, currentValue_CATEGORY, currentValue_KITCHEN, currentValue_PREFERENCES);
 
-        MyAdapter myAdapter = new MyAdapter((ArrayList<Table1>)recipeFilter.table1);
-        recyclerView.setAdapter(myAdapter);
+        FilterAdapter filterAdapter = new FilterAdapter(recipeFilter);
+        recyclerView.setAdapter(filterAdapter);
     }
 
-    protected class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
-        private final ArrayList <Table1> dataset;
+    protected class FilterAdapter extends RecyclerView.Adapter<FilterViewHolder> {
+        public final RecipeFilter recipeFilter;
 
-        public MyAdapter(ArrayList <Table1> dataset) {
-            this.dataset = dataset;
+        public FilterAdapter(RecipeFilter recipeFilter) {
+            this.recipeFilter = recipeFilter;
         }
 
         @NonNull
         @Override
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public FilterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = getLayoutInflater();
-            return new MyViewHolder (layoutInflater, parent);
+            return new FilterViewHolder(layoutInflater, parent);
         }
 
         @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-            Table1 item = dataset.get(position);
+        public void onBindViewHolder(FilterViewHolder holder, int position) {
+            Table1 item = recipeFilter.table1.get(position);
             holder.bind(item);
         }
 
         @Override
         public int getItemCount() {
-            return dataset.size();
+            return recipeFilter.table1.size();
         }
     }
 
-    private class MyViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textViewRecipe;
-        private final TextView textViewTime;
-        private final ImageView imageViewImg;
-        Context context;
+    protected class FilterViewHolder extends RecyclerView.ViewHolder {
+        protected final TextView textViewRecipeName;
+        protected final TextView textViewTime;
+        protected final ImageView imageViewImgTitle;
+        protected Context context;
 
-        public MyViewHolder(LayoutInflater inflater, ViewGroup parent) {
+        public FilterViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_filter, parent,false));
-            textViewRecipe = itemView.findViewById(R.id.Filter_result_item_recipe);
-            textViewTime = itemView.findViewById(R.id.Filter_result_item_time);
-            imageViewImg = itemView.findViewById(R.id.Filter_result_item_img);
-            context = textViewRecipe.getContext();
+            textViewRecipeName = itemView.findViewById(R.id.Filter_result_item_textView_recipeName);
+            textViewTime = itemView.findViewById(R.id.Filter_result_item_textView_time);
+            imageViewImgTitle = itemView.findViewById(R.id.Filter_result_item_imageView_imgTitle);
+            context = textViewRecipeName.getContext();
         }
 
         public void bind (Table1 table1) {
-            textViewRecipe.setText("" + table1.TABLE1_COLUMN_RECIPE);
+            bindTextViewRecipeName(table1);
+
+            bindTextViewTime(table1);
+
+            bindImageViewImgTitle(table1);
+
+            bindItemView(table1);
+        }
+
+        protected void bindTextViewRecipeName(Table1 table1){
+            textViewRecipeName.setText("" + table1.TABLE1_COLUMN_RECIPE);
+        }
+
+        protected void bindTextViewTime(Table1 table1){
             textViewTime.setText("" + table1.TABLE1_COLUMN_TIME);
+        }
 
-            bindImageMyViewHolder(imageViewImg,table1);
+        protected void bindImageViewImgTitle(Table1 table1){
+            if (table1.TABLE1_COLUMN_IMG_TITLE==null||table1.TABLE1_COLUMN_IMG_TITLE.equals("null")){
+                imageViewImgTitle.setImageResource(R.drawable.no_img);
+            }
+            else {
+                imageViewImgTitle.setImageURI(Uri.parse(table1.TABLE1_COLUMN_IMG_TITLE));
+            }
+        }
 
+        protected void bindItemView (Table1 table1) {
             final int id = table1.TABLE1_COLUMN_ID;
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -371,31 +392,19 @@ public class Activity_Filter extends Activity {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
-                            intent = setIntentActivityForClickRecipe();
-                            intent.putExtra(DB.TABLE1_COLUMN_ID, String.valueOf(id));
-                            startActivity(intent);
+
+                            onClickItemView(id);
                         }
                     };
                     AnimClick (itemView, adapter);
                 }
             });
         }
-    }
 
-    protected Intent setIntentActivityForClickRecipe() {
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: getIntentForRecipe");
-
-        return new Intent(this, Activity_Recipe.class);
-    }
-
-    protected void bindImageMyViewHolder (ImageView imageViewImg, Table1 table1){
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: bindImageMyViewHolder");
-
-        if (table1.TABLE1_COLUMN_IMG_TITLE==null||table1.TABLE1_COLUMN_IMG_TITLE.equals("null")){
-            imageViewImg.setImageResource(R.drawable.no_img);
-        }
-        else {
-            imageViewImg.setImageURI(Uri.parse(table1.TABLE1_COLUMN_IMG_TITLE));
+        protected void onClickItemView(int id) {
+            Intent intent = new Intent(Activity_Filter.this, Activity_Recipe.class);
+            intent.putExtra(DB.TABLE1_COLUMN_ID, String.valueOf(id));
+            startActivity(intent);
         }
     }
 }

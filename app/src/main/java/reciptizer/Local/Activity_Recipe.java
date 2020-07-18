@@ -30,21 +30,20 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
     protected Recipe recipe;
     protected Integer filterResult_id;
 
-    Intent intent;
-    int portion;
-    LinearLayout linLayout_Table2;
-    TextView textView_TABLE2_COLUMN_QUANTITY;
-    TextView textView_TABLE2_COLUMN_MEASURE;
+    private int portion;
+    private LinearLayout linLayout_Table2;
+    private TextView textView_TABLE2_COLUMN_QUANTITY;
+    private TextView textView_TABLE2_COLUMN_MEASURE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
-        getStringExtra();
-        Log.d(Activity_Main.LOG_TAG, "ShowRecipe_getStringExtra: id = " + filterResult_id);
-        prepareActivity();
-        Log.d(Activity_Main.LOG_TAG, "ShowRecipe_prepareActivity");
+        setIdRecipeFromIntent();
+
+        initLayout();
+
         getRecipeAndSetValues();
         Log.d(Activity_Main.LOG_TAG, "getRecipeAndSetValues");
         setStatusBarColor();
@@ -61,15 +60,35 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
         return "Поделиться рецептом";
     }
 
-    private void getStringExtra() {
-        intent = getIntent();
+    private void setIdRecipeFromIntent() {
+        Intent intent = getIntent();
         filterResult_id = Integer.parseInt(intent.getStringExtra(DB.TABLE1_COLUMN_ID));
+
+        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: setIdRecipeFromIntent | id = " + filterResult_id);
     }
 
-    protected void prepareActivity() {
+    private void initLayout() {
+        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: initLayout");
 
-        final Button button_search = findViewById(R.id.Recipe_button_search);
-        button_search.setOnClickListener(new View.OnClickListener() {
+        LinearLayout linearLayoutTitle = findViewById(R.id.Recipe_LinearLayout_Title);
+        createLinearLayoutTitle(linearLayoutTitle);
+
+        Button buttonSearch = findViewById(R.id.Recipe_button_search);
+        createButtonSearch(buttonSearch);
+
+        Button buttonSave = findViewById(R.id.Recipe_button_save);
+        createButtonSave(buttonSave);
+
+        Button buttonEdit = findViewById(R.id.Recipe_button_edit);
+        createButtonEdit(buttonEdit);
+    }
+
+    protected void createLinearLayoutTitle (LinearLayout linearLayoutTitle){
+
+    }
+
+    protected void createButtonSearch (final Button buttonSearch) {
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AnimatorListenerAdapter adapter = new AnimatorListenerAdapter() {
@@ -79,12 +98,13 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
                         finish();
                     }
                 };
-                AnimMenuClick (button_search, adapter);
+                AnimMenuClick (buttonSearch, adapter);
             }
         });
+    }
 
-        final Button button_save = findViewById(R.id.Recipe_button_save);
-        button_save.setOnClickListener(new View.OnClickListener() {
+    protected void createButtonSave (final  Button buttonSave) {
+        buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AnimatorListenerAdapter adapter = new AnimatorListenerAdapter() {
@@ -95,25 +115,26 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
                         dialog.show(getSupportFragmentManager(), "RecipeDialog");
                     }
                 };
-                AnimMenuClick (button_save, adapter);
+                AnimMenuClick (buttonSave, adapter);
             }
         });
+    }
 
-        final Button button_edit = findViewById(R.id.Recipe_button_edit);
-        button_edit.setOnClickListener(new View.OnClickListener() {
+    protected void createButtonEdit (final Button buttonEdit) {
+        buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AnimatorListenerAdapter adapter = new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        intent = new Intent(Activity_Recipe.this, Activity_New_Edit_Recipe.class);
+                        Intent intent = new Intent(Activity_Recipe.this, Activity_New_Edit_Recipe.class);
                         intent.putExtra(DB.TABLE1_COLUMN_ID, filterResult_id);
                         startActivity(intent);
                         finish();
                     }
                 };
-                AnimMenuClick (button_edit, adapter);
+                AnimMenuClick (buttonEdit, adapter);
             }
         });
     }
@@ -126,13 +147,13 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
     }
 
     protected void createTable1() {
-        TextView textView_TABLE1_COLUMN_RECIPE = findViewById(R.id.Recipe_TABLE1_COLUMN_RECIPE);
-        TextView textView_TABLE1_COLUMN_CATEGORY = findViewById(R.id.Recipe_TABLE1_COLUMN_CATEGORY);
-        TextView textView_TABLE1_COLUMN_KITCHEN = findViewById(R.id.Recipe_TABLE1_COLUMN_KITCHEN);
-        TextView textView_TABLE1_COLUMN_PREFERENCES = findViewById(R.id.Recipe_TABLE1_COLUMN_PREFERENCES);
-        TextView textView_TABLE1_COLUMN_TIME = findViewById(R.id.Recipe_TABLE1_COLUMN_TIME);
-        Spinner spinner_TABLE1_COLUMN_PORTION = findViewById(R.id.Recipe_TABLE1_COLUMN_PORTION);
-        final ImageView imageView_TABLE1_COLUMN_IMG = findViewById(R.id.Recipe_TABLE1_COLUMN_IMG);
+        TextView textView_TABLE1_COLUMN_RECIPE = findViewById(R.id.Recipe_textView_TABLE1_COLUMN_RECIPE);
+        TextView textView_TABLE1_COLUMN_CATEGORY = findViewById(R.id.Recipe_textView_TABLE1_COLUMN_CATEGORY);
+        TextView textView_TABLE1_COLUMN_KITCHEN = findViewById(R.id.Recipe_textView_TABLE1_COLUMN_KITCHEN);
+        TextView textView_TABLE1_COLUMN_PREFERENCES = findViewById(R.id.Recipe_textView_TABLE1_COLUMN_PREFERENCES);
+        TextView textView_TABLE1_COLUMN_TIME = findViewById(R.id.Recipe_textView_TABLE1_COLUMN_TIME);
+        Spinner spinner_TABLE1_COLUMN_PORTION = findViewById(R.id.Recipe_spinner_TABLE1_COLUMN_PORTION);
+        final ImageView imageView_TABLE1_COLUMN_IMG_TITLE = findViewById(R.id.Recipe_imageView_TABLE1_COLUMN_IMG_TITLE);
 
         textView_TABLE1_COLUMN_RECIPE.setText("" + recipe.table1.TABLE1_COLUMN_RECIPE);
         textView_TABLE1_COLUMN_CATEGORY.setText("" + recipe.table1.TABLE1_COLUMN_CATEGORY);
@@ -162,7 +183,7 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
             }
         });
 
-        setImageTable1(imageView_TABLE1_COLUMN_IMG);
+        setImageTable1(imageView_TABLE1_COLUMN_IMG_TITLE);
     }
     protected void setImageTable1(final ImageView imageView_TABLE1_COLUMN_IMG) {
         final String img_png = recipe.table1.TABLE1_COLUMN_IMG_TITLE;
@@ -200,7 +221,7 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
             int quantity = table2Row.TABLE2_COLUMN_QUANTITY;
             String measure = table2Row.TABLE2_COLUMN_MEASURE;
 
-            linLayout_Table2 = findViewById(R.id.Recipe_LL_TABLE_2);
+            linLayout_Table2 = findViewById(R.id.Recipe_linearLayout_TABLE_2);
             LayoutInflater ltInflater = getLayoutInflater();
             View viewRowTable2 = ltInflater.inflate(R.layout.item_recipe_table2, linLayout_Table2, false);
 
@@ -226,7 +247,7 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
             int number = table3Row.TABLE3_COLUMN_NUMBER;
             String text = table3Row.TABLE3_COLUMN_TEXT;
 
-            LinearLayout linLayout_Table3 = findViewById(R.id.Recipe_LL_TABLE_3);
+            LinearLayout linLayout_Table3 = findViewById(R.id.Recipe_linearLayout_TABLE_3);
             LayoutInflater ltInflater = getLayoutInflater();
             View viewRowTable3 = ltInflater.inflate(R.layout.item_recipe_table3, linLayout_Table3, false);
 

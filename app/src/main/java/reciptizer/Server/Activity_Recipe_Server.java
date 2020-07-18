@@ -28,18 +28,46 @@ public class Activity_Recipe_Server extends Activity_Recipe {
     Recipe recipeForSave;
 
     @Override
-    protected void prepareActivity() {
-        super.prepareActivity();
+    public void onSaveRecipeDialogPositiveClick(DialogFragment dialog) {
+        if (isRecipeDownloadAllImage(recipeForSave)){
+            DB.addRecipeFromServer(recipeForSave, Activity_Recipe_Server.this);
+            ToastHelper.toastRecipeIsSaved(getApplicationContext());
+        }
+        else {
+            ToastHelper.toastLoadImage(this);
+            loadImage();
+        }
+    }
 
-        LinearLayout linearLayout = findViewById(R.id.Recipe_LL_Title);
-        linearLayout.removeView(findViewById(R.id.Recipe_button_edit));
-        linearLayout.setBackgroundResource(R.color.RecipeServerSetStatusBarColor);
+    @Override
+    public String setDialogTitle() {
+        return "Сохранить в мои рецепты";
+    }
 
-        final Button button_search = findViewById(R.id.Recipe_button_search);
-        button_search.setBackgroundResource(R.drawable.recipe_server_search);
+    @Override
+    protected void createLinearLayoutTitle(LinearLayout linearLayoutTitle) {
 
-        final Button button_save = findViewById(R.id.Recipe_button_save);
-        button_save.setBackgroundResource(R.drawable.recipe_server_home);
+        linearLayoutTitle.setBackgroundResource(R.color.RecipeServerSetStatusBarColor);
+    }
+
+    @Override
+    protected void createButtonSearch(Button buttonSearch) {
+        super.createButtonSearch(buttonSearch);
+
+        buttonSearch.setBackgroundResource(R.drawable.recipe_server_search);
+    }
+
+    @Override
+    protected void createButtonSave(Button buttonSave) {
+        super.createButtonSave(buttonSave);
+
+        buttonSave.setBackgroundResource(R.drawable.recipe_server_home);
+    }
+
+    @Override
+    protected void createButtonEdit(Button buttonEdit) {
+
+        ((LinearLayout) buttonEdit.getParent()).removeView(buttonEdit);
     }
 
     @Override
@@ -162,26 +190,10 @@ public class Activity_Recipe_Server extends Activity_Recipe {
     }
 
     @Override
-    public void onSaveRecipeDialogPositiveClick(DialogFragment dialog) {
-        if (isRecipeDownloadAllImage(recipeForSave)){
-            DB.addRecipeFromServer(recipeForSave, Activity_Recipe_Server.this);
-            ToastHelper.toastRecipeIsSaved(getApplicationContext());
-        }
-        else {
-            ToastHelper.toastLoadImage(this);
-            loadImage();
-        }
-    }
-
-    @Override
     protected int getColorForNavigationBar() {
         return R.color.RecipeServerSetStatusBarColor;
     }
 
-    @Override
-    public String setDialogTitle() {
-        return "Сохранить в мои рецепты";
-    }
 
     private void loadImage (){
         if(recipeForSave.table1.TABLE1_COLUMN_IMG_TITLE!=null && !recipeForSave.table1.TABLE1_COLUMN_IMG_TITLE.equals("null"))

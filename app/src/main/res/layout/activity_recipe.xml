@@ -8,7 +8,7 @@
         android:orientation="vertical"
         android:background="@drawable/recipe_background_repeat">
     <LinearLayout
-            android:id="@+id/Recipe_LL_Title"
+            android:id="@+id/Recipe_LinearLayout_Title"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -19,10 +19,10 @@
                 android:layout_height="50dp"
                 android:background="@drawable/tullbar_search"
                 android:layout_margin="5dp"/>
-
         <Space
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" android:layout_weight="1"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
         <Button
                 android:id="@+id/Recipe_button_save"
                 android:layout_width="50dp"
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp">
                 <TextView
-                        android:id="@+id/Recipe_TABLE1_COLUMN_RECIPE"
+                        android:id="@+id/Recipe_textView_TABLE1_COLUMN_RECIPE"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -55,7 +55,6 @@
                         android:textStyle="bold"
                         android:textColor="#F37C20"/>
             </LinearLayout>
-
                 <RelativeLayout
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
@@ -68,7 +67,7 @@
                     <ImageView
                             android:layout_width="200dp"
                             android:layout_height="200dp"
-                            android:id="@+id/Recipe_TABLE1_COLUMN_IMG"
+                            android:id="@+id/Recipe_imageView_TABLE1_COLUMN_IMG_TITLE"
                             android:scaleType="centerCrop"
                             android:layout_margin="2dp"
                             tools:ignore="ContentDescription"
@@ -82,7 +81,6 @@
                             android:layout_centerVertical="true"
                             android:visibility="invisible"/>
                 </RelativeLayout>
-
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -90,7 +88,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp">
                 <TextView
-                        android:id="@+id/Recipe_TABLE1_COLUMN_CATEGORY"
+                        android:id="@+id/Recipe_textView_TABLE1_COLUMN_CATEGORY"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -98,7 +96,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 <TextView
-                        android:id="@+id/Recipe_TABLE1_COLUMN_KITCHEN"
+                        android:id="@+id/Recipe_textView_TABLE1_COLUMN_KITCHEN"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -106,7 +104,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 <TextView
-                        android:id="@+id/Recipe_TABLE1_COLUMN_PREFERENCES"
+                        android:id="@+id/Recipe_textView_TABLE1_COLUMN_PREFERENCES"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -127,7 +125,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 <TextView
-                        android:id="@+id/Recipe_TABLE1_COLUMN_TIME"
+                        android:id="@+id/Recipe_textView_TABLE1_COLUMN_TIME"
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="15dp"
@@ -154,7 +152,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 <Spinner
-                        android:id="@+id/Recipe_TABLE1_COLUMN_PORTION"
+                        android:id="@+id/Recipe_spinner_TABLE1_COLUMN_PORTION"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
@@ -196,7 +194,7 @@
                         android:textStyle="bold"/>
             </LinearLayout>
         <LinearLayout
-                android:id="@+id/Recipe_LL_TABLE_2"
+                android:id="@+id/Recipe_linearLayout_TABLE_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="UseCompoundDrawables"
@@ -231,7 +229,7 @@
                         android:textStyle="bold"/>
             </LinearLayout>
             <LinearLayout
-                    android:id="@+id/Recipe_LL_TABLE_3"
+                    android:id="@+id/Recipe_linearLayout_TABLE_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:ignore="UseCompoundDrawables"
