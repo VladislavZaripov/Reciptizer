@@ -20,16 +20,14 @@ import reciptizer.Common.Recipe.BitmapTempSingleton;
 import reciptizer.Common.Recipe.RecipeFilter;
 import reciptizer.Common.Recipe.Table1;
 import reciptizer.Local.Activity_Filter;
-import reciptizer.Local.Activity_Recipe;
 import reciptizer.Local.DB;
-
 import java.util.ArrayList;
 
 public class Activity_Filter_Server  extends Activity_Filter {
 
     @Override
-    protected int getColorForNavigationBar() {
-        return R.color.FilterRecipeServerSetStatusBarColor;
+    protected void setStatusBarColor(int colorForStatusBar, int ColorForNavigationBar) {
+        super.setStatusBarColor(colorForStatusBar, R.color.FilterRecipeServerSetStatusBarColor);
     }
 
     @Override

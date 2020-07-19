@@ -42,15 +42,15 @@ public class Activity_Filter extends Activity {
         setContentView(R.layout.activity_filter);
         Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: onCreate");
 
+        setStatusBarColor (R.color.FilterRecipeSetStatusBarColor,R.color.RecipeSetStatusBarColor);
+
         getResource ();
 
         setStartValues ();
 
-        initLayout();
+        initLayout ();
 
-        setContentIntoRecyclerView();
-
-        setStatusBarColor ();
+        setContentIntoRecyclerView ();
     }
 
     @Override
@@ -65,22 +65,12 @@ public class Activity_Filter extends Activity {
         }
     }
 
-    private void setStatusBarColor () {
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: setStatusBarColor");
-
+    protected void setStatusBarColor (int colorForStatusBar, int ColorForNavigationBar) {
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this,getColorForStatusBar()));
-        window.setNavigationBarColor(ContextCompat.getColor(this,getColorForNavigationBar()));
-    }
-
-    protected int getColorForStatusBar (){
-        return R.color.FilterRecipeSetStatusBarColor;
-    }
-
-    protected int getColorForNavigationBar (){
-        return R.color.RecipeSetStatusBarColor;
+        window.setStatusBarColor(ContextCompat.getColor(this, colorForStatusBar));
+        window.setNavigationBarColor(ContextCompat.getColor(this, ColorForNavigationBar));
     }
 
     private void getResource () {

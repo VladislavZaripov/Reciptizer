@@ -17,10 +17,8 @@ import reciptizer.Common.Recipe.Recipe;
 import reciptizer.Common.Recipe.Table2Row;
 import reciptizer.Common.Recipe.Table3Row;
 import reciptizer.Server.ServerAPISingleton;
-
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.List;
 
 import static reciptizer.Common.Helpers.AnimHelper.AnimClick;
 import static reciptizer.Common.Helpers.AnimHelper.AnimMenuClick;
@@ -29,30 +27,31 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
 
     protected Recipe recipe;
     protected Integer filterResult_id;
-
     private int portion;
     private LinearLayout linLayout_Table2;
-    private TextView textView_TABLE2_COLUMN_QUANTITY;
-    private TextView textView_TABLE2_COLUMN_MEASURE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
-        setIdRecipeFromIntent();
+        getIdRecipeFromIntent ();
 
-        initLayout();
+        setStatusBarColor (R.color.RecipeSetStatusBarColor,R.color.RecipeSetStatusBarColor);
 
-        getRecipeAndSetValues();
-        Log.d(Activity_Main.LOG_TAG, "getRecipeAndSetValues");
-        setStatusBarColor();
-        Log.d(Activity_Main.LOG_TAG,"ShowRecipe_setStatusBarColor");
+        initPanel ();
+
+        getRecipeAndSetValues ();
     }
 
     @Override
     public void onSaveRecipeDialogPositiveClick(DialogFragment dialog) {
         ServerAPISingleton.getInstance(this.getApplicationContext()).sendRecipe(recipe);
+
+            if (recipe.table1.TABLE1_COLUMN_IMG_TITLE!=null&&!recipe.table1.TABLE1_COLUMN_IMG_TITLE.equals("null"))
+                ServerAPISingleton.getInstance(this.getApplicationContext()).sendImage(recipe.table1.TABLE1_COLUMN_IMG_TITLE);
+
+
     }
 
     @Override
@@ -60,15 +59,23 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
         return "Поделиться рецептом";
     }
 
-    private void setIdRecipeFromIntent() {
+    private void getIdRecipeFromIntent() {
         Intent intent = getIntent();
         filterResult_id = Integer.parseInt(intent.getStringExtra(DB.TABLE1_COLUMN_ID));
 
         Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: setIdRecipeFromIntent | id = " + filterResult_id);
     }
 
-    private void initLayout() {
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: initLayout");
+    protected void setStatusBarColor (int colorForStatusBar, int ColorForNavigationBar) {
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, colorForStatusBar));
+        window.setNavigationBarColor(ContextCompat.getColor(this, ColorForNavigationBar));
+    }
+
+    private void initPanel() {
+        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: initPanel");
 
         LinearLayout linearLayoutTitle = findViewById(R.id.Recipe_LinearLayout_Title);
         createLinearLayoutTitle(linearLayoutTitle);
@@ -140,27 +147,59 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
     }
 
     protected void getRecipeAndSetValues() {
+        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: getRecipeAndSetValues");
+
         recipe = DB.getRecipe(filterResult_id);
-        createTable1();
-        createTable2();
-        createTable3();
+        initTable1();
+        initTable2();
+        initTable3();
     }
 
-    protected void createTable1() {
+    protected void initTable1() {
         TextView textView_TABLE1_COLUMN_RECIPE = findViewById(R.id.Recipe_textView_TABLE1_COLUMN_RECIPE);
+        createTextViewRecipe(textView_TABLE1_COLUMN_RECIPE);
+
         TextView textView_TABLE1_COLUMN_CATEGORY = findViewById(R.id.Recipe_textView_TABLE1_COLUMN_CATEGORY);
+        createTextViewCategory(textView_TABLE1_COLUMN_CATEGORY);
+
         TextView textView_TABLE1_COLUMN_KITCHEN = findViewById(R.id.Recipe_textView_TABLE1_COLUMN_KITCHEN);
+        createTextViewKitchen(textView_TABLE1_COLUMN_KITCHEN);
+
         TextView textView_TABLE1_COLUMN_PREFERENCES = findViewById(R.id.Recipe_textView_TABLE1_COLUMN_PREFERENCES);
+        createTextViewPreferences(textView_TABLE1_COLUMN_PREFERENCES);
+
         TextView textView_TABLE1_COLUMN_TIME = findViewById(R.id.Recipe_textView_TABLE1_COLUMN_TIME);
+        createTextViewTime(textView_TABLE1_COLUMN_TIME);
+
+
         Spinner spinner_TABLE1_COLUMN_PORTION = findViewById(R.id.Recipe_spinner_TABLE1_COLUMN_PORTION);
-        final ImageView imageView_TABLE1_COLUMN_IMG_TITLE = findViewById(R.id.Recipe_imageView_TABLE1_COLUMN_IMG_TITLE);
+        createSpinnerPortion(spinner_TABLE1_COLUMN_PORTION);
 
+        ImageView imageView_TABLE1_COLUMN_IMG_TITLE = findViewById(R.id.Recipe_imageView_TABLE1_COLUMN_IMG_TITLE);
+        createImageViewRecipe(imageView_TABLE1_COLUMN_IMG_TITLE);
+    }
+
+    protected void createTextViewRecipe (TextView textView_TABLE1_COLUMN_RECIPE){
         textView_TABLE1_COLUMN_RECIPE.setText("" + recipe.table1.TABLE1_COLUMN_RECIPE);
-        textView_TABLE1_COLUMN_CATEGORY.setText("" + recipe.table1.TABLE1_COLUMN_CATEGORY);
-        textView_TABLE1_COLUMN_KITCHEN.setText("" + recipe.table1.TABLE1_COLUMN_KITCHEN);
-        textView_TABLE1_COLUMN_PREFERENCES.setText("" + recipe.table1.TABLE1_COLUMN_PREFERENCES);
-        textView_TABLE1_COLUMN_TIME.setText("" + recipe.table1.TABLE1_COLUMN_TIME);
+    }
 
+    protected void createTextViewCategory (TextView textView_TABLE1_COLUMN_CATEGORY){
+        textView_TABLE1_COLUMN_CATEGORY.setText("" + recipe.table1.TABLE1_COLUMN_CATEGORY);
+    }
+
+    protected void createTextViewKitchen (TextView textView_TABLE1_COLUMN_KITCHEN){
+        textView_TABLE1_COLUMN_KITCHEN.setText("" + recipe.table1.TABLE1_COLUMN_KITCHEN);
+    }
+
+    protected void createTextViewPreferences (TextView textView_TABLE1_COLUMN_PREFERENCES){
+        textView_TABLE1_COLUMN_PREFERENCES.setText("" + recipe.table1.TABLE1_COLUMN_PREFERENCES);
+    }
+
+    protected void createTextViewTime (TextView textView_TABLE1_COLUMN_TIME){
+        textView_TABLE1_COLUMN_TIME.setText("" + recipe.table1.TABLE1_COLUMN_TIME);
+    }
+
+    protected void createSpinnerPortion (Spinner spinner_TABLE1_COLUMN_PORTION){
         final String [] TABLE1_PORTION  = getResources().getStringArray(R.array.TABLE1_COLUMN_PORTION);
         ArrayAdapter<String> adapterSpinnerPortion = new ArrayAdapter<>(this, R.layout.spinner_item_recipe, TABLE1_PORTION);
         spinner_TABLE1_COLUMN_PORTION.setAdapter(adapterSpinnerPortion);
@@ -182,10 +221,9 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-        setImageTable1(imageView_TABLE1_COLUMN_IMG_TITLE);
     }
-    protected void setImageTable1(final ImageView imageView_TABLE1_COLUMN_IMG) {
+
+    protected void createImageViewRecipe(final ImageView imageView_TABLE1_COLUMN_IMG) {
         final String img_png = recipe.table1.TABLE1_COLUMN_IMG_TITLE;
         if (img_png==null||img_png.equals("null"))
         {
@@ -213,100 +251,41 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
         }
     }
 
-    protected void createTable2() {
-        List<Table2Row> rowsTable2 = recipe.rowsTable2;
+    protected void initTable2() {
+        linLayout_Table2 = findViewById(R.id.Recipe_linearLayout_TABLE_2);
+        LayoutInflater ltInflater = getLayoutInflater();
 
-        for (Table2Row table2Row : rowsTable2) {
-            String ingredients = table2Row.TABLE2_COLUMN_INGREDIENTS;
-            int quantity = table2Row.TABLE2_COLUMN_QUANTITY;
-            String measure = table2Row.TABLE2_COLUMN_MEASURE;
-
-            linLayout_Table2 = findViewById(R.id.Recipe_linearLayout_TABLE_2);
-            LayoutInflater ltInflater = getLayoutInflater();
+        for (Table2Row table2Row : recipe.rowsTable2) {
             View viewRowTable2 = ltInflater.inflate(R.layout.item_recipe_table2, linLayout_Table2, false);
 
             TextView textView_TABLE2_COLUMN_INGREDIENTS = viewRowTable2.findViewById(R.id.Recipe_item_table2_TABLE2_COLUMN_INGREDIENTS);
-            textView_TABLE2_COLUMN_INGREDIENTS.setText("" + ingredients);
+            createTextViewIngredients(textView_TABLE2_COLUMN_INGREDIENTS,table2Row);
 
-            textView_TABLE2_COLUMN_QUANTITY = viewRowTable2.findViewById(R.id.Recipe_item_table2_TABLE2_COLUMN_QUANTITY);
-            textView_TABLE2_COLUMN_QUANTITY.setText("" + quantity);
-            textView_TABLE2_COLUMN_QUANTITY.setTag(quantity);
+            TextView textView_TABLE2_COLUMN_QUANTITY = viewRowTable2.findViewById(R.id.Recipe_item_table2_TABLE2_COLUMN_QUANTITY);
+            createTextViewQuantity(textView_TABLE2_COLUMN_QUANTITY,table2Row);
 
-            textView_TABLE2_COLUMN_MEASURE = viewRowTable2.findViewById(R.id.Recipe_item_table2_TABLE2_COLUMN_MEASURE);
-            textView_TABLE2_COLUMN_MEASURE.setText("" + measure);
-            textView_TABLE2_COLUMN_MEASURE.setTag(measure);
+            TextView textView_TABLE2_COLUMN_MEASURE = viewRowTable2.findViewById(R.id.Recipe_item_table2_TABLE2_COLUMN_MEASURE);
+            createTextViewMeasure(textView_TABLE2_COLUMN_MEASURE,table2Row);
 
             linLayout_Table2.addView(viewRowTable2);
         }
     }
 
-    protected void createTable3() {
-        List<Table3Row> rowsTable3 = recipe.rowsTable3;
-
-        for (Table3Row table3Row : rowsTable3) {
-            int number = table3Row.TABLE3_COLUMN_NUMBER;
-            String text = table3Row.TABLE3_COLUMN_TEXT;
-
-            LinearLayout linLayout_Table3 = findViewById(R.id.Recipe_linearLayout_TABLE_3);
-            LayoutInflater ltInflater = getLayoutInflater();
-            View viewRowTable3 = ltInflater.inflate(R.layout.item_recipe_table3, linLayout_Table3, false);
-
-            TextView textViewNumber = viewRowTable3.findViewById(R.id.Recipe_item_table3_TABLE3_COLUMN_NUMBER);
-            TextView textViewText = viewRowTable3.findViewById(R.id.Recipe_item_table3_TABLE3_COLUMN_TEXT);
-            final ImageView imageViewImg = viewRowTable3.findViewById(R.id.Recipe_item_table3_TABLE3_COLUMN_IMG);
-
-            textViewNumber.setText("" + number);
-            textViewText.setText("" + text);
-
-            setImageTable3(imageViewImg, table3Row);
-
-            linLayout_Table3.addView(viewRowTable3);
-        }
-    }
-    protected void setImageTable3(final ImageView imageViewImg, Table3Row table3Row){
-        final String img_png = table3Row.TABLE3_COLUMN_IMG_TITLE;
-        if (img_png==null||img_png.equals("null")){
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageViewImg.getLayoutParams();
-            params.width = 0;
-            params.height = 0;
-            params.setMargins(0,0,0,0);
-            imageViewImg.setLayoutParams(params);
-        }
-        else {
-            imageViewImg.setImageURI(Uri.parse(img_png));
-
-            final String img_jpeg = table3Row.TABLE3_COLUMN_IMG_FULL;
-            imageViewImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AnimatorListenerAdapter adapter = new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            DialogFragment dialog = new ImageDialogFragment(img_jpeg,img_png);
-                            dialog.show(getSupportFragmentManager(), "ImageDialog");
-                        }
-                    };
-                    AnimClick (imageViewImg, adapter);
-                }
-            });
-        }
+    protected void createTextViewIngredients(TextView textView_TABLE2_COLUMN_INGREDIENTS, Table2Row table2Row){
+        String ingredients = table2Row.TABLE2_COLUMN_INGREDIENTS;
+        textView_TABLE2_COLUMN_INGREDIENTS.setText("" + ingredients);
     }
 
-    private void setStatusBarColor() {
-        Window window = this.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, getColorForStatusBar()));
-        window.setNavigationBarColor(ContextCompat.getColor(this, getColorForNavigationBar()));
+    protected void createTextViewQuantity(TextView textView_TABLE2_COLUMN_QUANTITY, Table2Row table2Row){
+        int quantity = table2Row.TABLE2_COLUMN_QUANTITY;
+        textView_TABLE2_COLUMN_QUANTITY.setText("" + quantity);
+        textView_TABLE2_COLUMN_QUANTITY.setTag(quantity);
     }
 
-    protected int getColorForStatusBar (){
-        return R.color.RecipeSetStatusBarColor;
-    }
-
-    protected int getColorForNavigationBar (){
-        return R.color.RecipeSetStatusBarColor;
+    protected void createTextViewMeasure(TextView textView_TABLE2_COLUMN_MEASURE, Table2Row table2Row){
+        String measure = table2Row.TABLE2_COLUMN_MEASURE;
+        textView_TABLE2_COLUMN_MEASURE.setText("" + measure);
+        textView_TABLE2_COLUMN_MEASURE.setTag(measure);
     }
 
     private void calculateTable2 (String newPortion) {
@@ -314,18 +293,13 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
         DecimalFormat format = new DecimalFormat("#.#");
         format.setRoundingMode(RoundingMode.HALF_UP);
         View view;
-        int count = 0;
-        try {
-            count = linLayout_Table2.getChildCount();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        int count = linLayout_Table2.getChildCount();
+
         for (int idView = 0; idView < count; idView++){
             view = linLayout_Table2.getChildAt(idView);
 
-            textView_TABLE2_COLUMN_QUANTITY = view.findViewById(R.id.Recipe_item_table2_TABLE2_COLUMN_QUANTITY);
-            textView_TABLE2_COLUMN_MEASURE = view.findViewById(R.id.Recipe_item_table2_TABLE2_COLUMN_MEASURE);
+            TextView textView_TABLE2_COLUMN_QUANTITY = view.findViewById(R.id.Recipe_item_table2_TABLE2_COLUMN_QUANTITY);
+            TextView textView_TABLE2_COLUMN_MEASURE = view.findViewById(R.id.Recipe_item_table2_TABLE2_COLUMN_MEASURE);
 
             double quantity = Double.parseDouble(textView_TABLE2_COLUMN_QUANTITY.getTag().toString());
             String measure = textView_TABLE2_COLUMN_MEASURE.getTag().toString();
@@ -391,6 +365,66 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
                 case "щеп":
                     break;
             }
+        }
+    }
+
+    protected void initTable3() {
+        LinearLayout linLayout_Table3 = findViewById(R.id.Recipe_linearLayout_TABLE_3);
+        LayoutInflater ltInflater = getLayoutInflater();
+
+        for (Table3Row table3Row : recipe.rowsTable3) {
+            View viewRowTable3 = ltInflater.inflate(R.layout.item_recipe_table3, linLayout_Table3, false);
+
+            TextView textView_TABLE3_COLUMN_NUMBER = viewRowTable3.findViewById(R.id.Recipe_item_table3_TABLE3_COLUMN_NUMBER);
+            createTextViewNumber(textView_TABLE3_COLUMN_NUMBER, table3Row);
+
+            TextView textView_TABLE3_COLUMN_TEXT = viewRowTable3.findViewById(R.id.Recipe_item_table3_TABLE3_COLUMN_TEXT);
+            createTextViewText(textView_TABLE3_COLUMN_TEXT, table3Row);
+
+            ImageView imageView_TABLE3_COLUMN_IMG_TITLE = viewRowTable3.findViewById(R.id.Recipe_item_table3_TABLE3_COLUMN_IMG_TITLE);
+            createImageViewImgSteps(imageView_TABLE3_COLUMN_IMG_TITLE, table3Row);
+
+            linLayout_Table3.addView(viewRowTable3);
+        }
+    }
+
+    protected void createTextViewNumber(TextView textView_TABLE3_COLUMN_NUMBER, Table3Row table3Row){
+        int number = table3Row.TABLE3_COLUMN_NUMBER;
+        textView_TABLE3_COLUMN_NUMBER.setText("" + number);
+    }
+
+    protected void createTextViewText(TextView textView_TABLE3_COLUMN_TEXT, Table3Row table3Row){
+        String text = table3Row.TABLE3_COLUMN_TEXT;
+        textView_TABLE3_COLUMN_TEXT.setText("" + text);
+    }
+
+    protected void createImageViewImgSteps(final ImageView imageView_TABLE3_COLUMN_IMG_TITLE, Table3Row table3Row){
+        final String img_png = table3Row.TABLE3_COLUMN_IMG_TITLE;
+        if (img_png==null||img_png.equals("null")){
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView_TABLE3_COLUMN_IMG_TITLE.getLayoutParams();
+            params.width = 0;
+            params.height = 0;
+            params.setMargins(0,0,0,0);
+            imageView_TABLE3_COLUMN_IMG_TITLE.setLayoutParams(params);
+        }
+        else {
+            imageView_TABLE3_COLUMN_IMG_TITLE.setImageURI(Uri.parse(img_png));
+
+            final String img_jpeg = table3Row.TABLE3_COLUMN_IMG_FULL;
+            imageView_TABLE3_COLUMN_IMG_TITLE.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AnimatorListenerAdapter adapter = new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            DialogFragment dialog = new ImageDialogFragment(img_jpeg,img_png);
+                            dialog.show(getSupportFragmentManager(), "ImageDialog");
+                        }
+                    };
+                    AnimClick (imageView_TABLE3_COLUMN_IMG_TITLE, adapter);
+                }
+            });
         }
     }
 }

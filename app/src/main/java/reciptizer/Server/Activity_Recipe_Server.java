@@ -45,6 +45,11 @@ public class Activity_Recipe_Server extends Activity_Recipe {
     }
 
     @Override
+    protected void setStatusBarColor(int colorForStatusBar, int ColorForNavigationBar) {
+        super.setStatusBarColor(colorForStatusBar, R.color.RecipeServerSetStatusBarColor);
+    }
+
+    @Override
     protected void createLinearLayoutTitle(LinearLayout linearLayoutTitle) {
 
         linearLayoutTitle.setBackgroundResource(R.color.RecipeServerSetStatusBarColor);
@@ -78,16 +83,16 @@ public class Activity_Recipe_Server extends Activity_Recipe {
                 JsonHelper jsonHelper = new JsonHelper();
                 recipe = jsonHelper.jsonObjectToRecipe(response);
                 recipeForSave = jsonHelper.jsonObjectToRecipe(response);
-                createTable1();
-                createTable2();
-                createTable3();
+                initTable1();
+                initTable2();
+                initTable3();
             }
         };
         ServerAPISingleton.getInstance(this.getApplicationContext()).getRecipe(filterResult_id, listener);
     }
 
     @Override
-    protected void setImageTable1(final ImageView imageView_TABLE1_COLUMN_IMG) {
+    protected void createImageViewRecipe(final ImageView imageView_TABLE1_COLUMN_IMG) {
         imageView_TABLE1_COLUMN_IMG.setImageResource(R.drawable.no_img);
 
         final String img_png = recipe.table1.TABLE1_COLUMN_IMG_TITLE;
@@ -139,7 +144,7 @@ public class Activity_Recipe_Server extends Activity_Recipe {
     }
 
     @Override
-    protected void setImageTable3(final ImageView imageViewImg, final Table3Row table3Row) {
+    protected void createImageViewImgSteps(final ImageView imageViewImg, final Table3Row table3Row) {
         final String img_png = table3Row.TABLE3_COLUMN_IMG_TITLE;
 
         if(BitmapTempSingleton.getInstance().getTempBitmap().containsKey(img_png)) {
@@ -188,12 +193,6 @@ public class Activity_Recipe_Server extends Activity_Recipe {
             });
         }
     }
-
-    @Override
-    protected int getColorForNavigationBar() {
-        return R.color.RecipeServerSetStatusBarColor;
-    }
-
 
     private void loadImage (){
         if(recipeForSave.table1.TABLE1_COLUMN_IMG_TITLE!=null && !recipeForSave.table1.TABLE1_COLUMN_IMG_TITLE.equals("null"))
