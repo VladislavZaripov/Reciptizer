@@ -48,10 +48,19 @@ public class Activity_Recipe extends FragmentActivity implements SaveRecipeDialo
     public void onSaveRecipeDialogPositiveClick(DialogFragment dialog) {
         ServerAPISingleton.getInstance(this.getApplicationContext()).sendRecipe(recipe);
 
-            if (recipe.table1.TABLE1_COLUMN_IMG_TITLE!=null&&!recipe.table1.TABLE1_COLUMN_IMG_TITLE.equals("null"))
-                ServerAPISingleton.getInstance(this.getApplicationContext()).sendImage(recipe.table1.TABLE1_COLUMN_IMG_TITLE);
+        if (recipe.table1.TABLE1_COLUMN_IMG_TITLE!=null&&!recipe.table1.TABLE1_COLUMN_IMG_TITLE.equals("null"))
+            ServerAPISingleton.getInstance(this.getApplicationContext()).sendImage(recipe.table1.TABLE1_COLUMN_IMG_TITLE);
 
+        if (recipe.table1.TABLE1_COLUMN_IMG_FULL!=null&&!recipe.table1.TABLE1_COLUMN_IMG_FULL.equals("null"))
+            ServerAPISingleton.getInstance(this.getApplicationContext()).sendImage(recipe.table1.TABLE1_COLUMN_IMG_FULL);
 
+        for (Table3Row table3Row : recipe.rowsTable3) {
+            if (table3Row.TABLE3_COLUMN_IMG_TITLE!=null&&!table3Row.TABLE3_COLUMN_IMG_TITLE.equals("null"))
+                ServerAPISingleton.getInstance(this.getApplicationContext()).sendImage(table3Row.TABLE3_COLUMN_IMG_TITLE);
+
+            if (table3Row.TABLE3_COLUMN_IMG_FULL!=null&&!table3Row.TABLE3_COLUMN_IMG_FULL.equals("null"))
+                ServerAPISingleton.getInstance(this.getApplicationContext()).sendImage(table3Row.TABLE3_COLUMN_IMG_FULL);
+        }
     }
 
     @Override

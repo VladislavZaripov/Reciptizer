@@ -527,8 +527,8 @@ public class DB {
             db.execSQL(TABLE3_CREATE);
             Log.d(Activity_Main.LOG_TAG, "TABLE3_CREATE");
 
-            SampleRecipe sampleRecipe = new SampleRecipe();
-            sampleRecipe.execute();
+            //SampleRecipe sampleRecipe = new SampleRecipe();
+            //sampleRecipe.execute();
         }
 
         @Override
