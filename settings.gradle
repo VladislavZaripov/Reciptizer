@@ -1,2 +1,2 @@
-rootProject.name='Reciptizer'
+rootProject.name='ReciptizerApp'
 include ':app'
