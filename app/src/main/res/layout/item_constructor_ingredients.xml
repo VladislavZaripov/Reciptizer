@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="UseCompoundDrawables"
+                android:layout_marginBottom="5dp">
+    <EditText
+            android:id="@+id/item_constructor_ingredients_editText_ingredient"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:layout_weight="2"
+            android:textSize="16sp"
+            tools:ignore="Autofill,LabelFor"/>
+    <EditText
+            android:id="@+id/item_constructor_ingredients_editText_quantity"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="16sp"
+            tools:ignore="Autofill,LabelFor"/>
+    <Spinner
+            android:id="@+id/item_constructor_ingredients_spinner_measure"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:spinnerMode ="dropdown"
+            android:paddingEnd="1dp"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            tools:ignore="RtlSymmetry"/>
+    <ImageView
+            android:id="@+id/item_constructor_ingredients_imageView_delete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/delete_row"
+            tools:ignore="ContentDescription"/>
+</LinearLayout>
+
