@@ -30,33 +30,33 @@
         </provider>
 
         <activity
-                android:name="reciptizer.Local.Activity_New_Edit_Recipe"
+                android:name="reciptizer.Local.ActivityConstructor"
                 android:screenOrientation="portrait"
                 tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-                android:name="reciptizer.Local.Activity_Recipe"
+                android:name="reciptizer.Local.ActivityRecipe"
                 android:noHistory="true"
                 android:screenOrientation="portrait"
                 tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-                android:name="reciptizer.Local.Activity_Filter"
+                android:name="reciptizer.Local.ActivityFilter"
                 android:screenOrientation="portrait"
                 tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-                android:name="reciptizer.Server.Activity_Filter_Server"
+                android:name="reciptizer.Server.ActivityFilterServer"
                 android:screenOrientation="portrait"
                 tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-                android:name="reciptizer.Server.Activity_Recipe_Server"
+                android:name="reciptizer.Server.ActivityRecipeServer"
                 android:screenOrientation="portrait"
                 tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-                android:name="reciptizer.Activity_Main"
+                android:name="reciptizer.ActivityMain"
                 android:screenOrientation="portrait"
                 tools:ignore="LockedOrientationActivity">
             <intent-filter>

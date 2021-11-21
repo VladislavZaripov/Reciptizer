@@ -16,31 +16,32 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.reciptizer.R;
-import reciptizer.Activity_Main;
+import reciptizer.ActivityMain;
 import reciptizer.Common.Helpers.ConstantHelper;
 import reciptizer.Common.Recipe.RecipeFilter;
 import reciptizer.Common.Recipe.Table1;
 
 import static reciptizer.Common.Helpers.AnimHelper.*;
 
-public class Activity_Filter extends Activity {
+public class ActivityFilter extends Activity {
 
-    protected String currentValue_RECIPE, currentValue_CATEGORY, currentValue_KITCHEN, currentValue_PREFERENCES;
+    protected String valueRecipe, valueCategory, valueKitchen, valuePreferences;
     protected RecyclerView recyclerView;
     protected RecipeFilter recipeFilter;
 
-    private String[] values_TABLE1_COLUMN_CATEGORY;
-    private String[] values_TABLE1_COLUMN_KITCHEN;
-    private String[] values_TABLE1_COLUMN_PREFERENCES;
-    private Spinner spinner_TABLE1_COLUMN_CATEGORY, spinner_TABLE1_COLUMN_KITCHEN, spinner_TABLE1_COLUMN_PREFERENCES;
-    private ImageView imageView_TABLE1_COLUMN_CATEGORY,imageView_TABLE1_COLUMN_KITCHEN,imageView_TABLE1_COLUMN_PREFERENCES;
+    private String[] resourceCategory;
+    private String[] resourceKitchen;
+    private String[] resourcePreferences;
+    private Spinner spinnerCategory, spinnerKitchen, spinnerPreferences;
+    private ImageView imageViewCategory, imageViewKitchen, imageViewPreferences;
     private boolean isSpinnersWereClicked = false;
+    boolean isOpenFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: onCreate");
+        Log.d(ActivityMain.LOG_TAG, this.getClass() + "| method: onCreate");
 
         setStatusBarColor (R.color.FilterRecipeSetStatusBarColor,R.color.RecipeSetStatusBarColor);
 
@@ -56,12 +57,12 @@ public class Activity_Filter extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: onResume");
+        Log.d(ActivityMain.LOG_TAG, this.getClass() + "| method: onResume");
 
-        if (ConstantHelper.isNeedToRefreshFilterCreateRecyclerView)
+        if (ConstantHelper.IS_NEED_TO_REFRESH_FILTER_RECYCLERVIEW)
         {
             setContentIntoRecyclerView();
-            ConstantHelper.isNeedToRefreshFilterCreateRecyclerView = false;
+            ConstantHelper.IS_NEED_TO_REFRESH_FILTER_RECYCLERVIEW = false;
         }
     }
 
@@ -74,56 +75,59 @@ public class Activity_Filter extends Activity {
     }
 
     private void getResource () {
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: getResource");
+        Log.d(ActivityMain.LOG_TAG, this.getClass() + "| method: getResource");
 
-        values_TABLE1_COLUMN_CATEGORY = getResources().getStringArray(R.array.TABLE1_COLUMN_CATEGORY);
-        values_TABLE1_COLUMN_KITCHEN = getResources().getStringArray(R.array.TABLE1_COLUMN_KITCHEN);
-        values_TABLE1_COLUMN_PREFERENCES = getResources().getStringArray(R.array.TABLE1_COLUMN_PREFERENCES);
+        resourceCategory = getResources().getStringArray(R.array.category);
+        resourceKitchen = getResources().getStringArray(R.array.kitchen);
+        resourcePreferences = getResources().getStringArray(R.array.preferences);
     }
 
     private void setStartValues () {
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: setStartValues");
+        Log.d(ActivityMain.LOG_TAG, this.getClass() + "| method: setStartValues");
 
-        currentValue_RECIPE = "";
-        currentValue_CATEGORY = values_TABLE1_COLUMN_CATEGORY[0];
-        currentValue_KITCHEN = values_TABLE1_COLUMN_KITCHEN[0];
-        currentValue_PREFERENCES = values_TABLE1_COLUMN_PREFERENCES[0];
+        valueRecipe = "";
+        valueCategory = resourceCategory[0];
+        valueKitchen = resourceKitchen[0];
+        valuePreferences = resourcePreferences[0];
     }
 
     private void initLayout () {
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: initLayout");
+        Log.d(ActivityMain.LOG_TAG, this.getClass() + "| method: initLayout");
 
-        LinearLayout linearLayoutTitle = findViewById(R.id.Filter_linearLayout_Title);
+        LinearLayout linearLayoutTitle = findViewById(R.id.filter_linearLayout_title);
         createLinearLayoutTitle(linearLayoutTitle);
 
-        TextView textViewTitle = findViewById(R.id.Filter_textView_Title);
+        TextView textViewTitle = findViewById(R.id.filter_textView_title);
         createTextViewTitle(textViewTitle);
 
-        EditText editTextRecipeName = findViewById(R.id.Filter_editText_recipeName);
+        EditText editTextRecipeName = findViewById(R.id.filter_editText_name);
         createEditTextRecipeName(editTextRecipeName);
 
-        Button buttonNewRecipe = findViewById(R.id.Filter_button_newRecipe);
+        Button buttonNewRecipe = findViewById(R.id.filter_button_new);
         createButtonNewRecipe(buttonNewRecipe);
 
-        imageView_TABLE1_COLUMN_CATEGORY = findViewById(R.id.Filter_imageView_category);
-        createImageViewCategory(imageView_TABLE1_COLUMN_CATEGORY);
+        imageViewCategory = findViewById(R.id.filter_imageView_category);
+        createImageViewCategory(imageViewCategory);
 
-        spinner_TABLE1_COLUMN_CATEGORY = findViewById(R.id.Filter_spinner_category);
-        createSpinnerCategory(spinner_TABLE1_COLUMN_CATEGORY);
+        spinnerCategory = findViewById(R.id.filter_spinner_category);
+        createSpinnerCategory(spinnerCategory);
 
-        imageView_TABLE1_COLUMN_KITCHEN = findViewById(R.id.Filter_imageView_kitchen);
-        createImageViewKitchen(imageView_TABLE1_COLUMN_KITCHEN);
+        imageViewKitchen = findViewById(R.id.filter_imageView_kitchen);
+        createImageViewKitchen(imageViewKitchen);
 
-        spinner_TABLE1_COLUMN_KITCHEN = findViewById(R.id.Filter_spinner_kitchen);
-        createSpinnerKitchen(spinner_TABLE1_COLUMN_KITCHEN);
+        spinnerKitchen = findViewById(R.id.filter_spinner_kitchen);
+        createSpinnerKitchen(spinnerKitchen);
 
-        imageView_TABLE1_COLUMN_PREFERENCES = findViewById(R.id.Filter_imageView_preferences);
-        createImageViewPreferences(imageView_TABLE1_COLUMN_PREFERENCES);
+        imageViewPreferences = findViewById(R.id.filter_imageView_preferences);
+        createImageViewPreferences(imageViewPreferences);
 
-        spinner_TABLE1_COLUMN_PREFERENCES = findViewById(R.id.Filter_spinner_preferences);
-        createSpinnerPreferences (spinner_TABLE1_COLUMN_PREFERENCES);
+        spinnerPreferences = findViewById(R.id.filter_spinner_preferences);
+        createSpinnerPreferences (spinnerPreferences);
 
-        recyclerView = findViewById(R.id.Filter_recyclerView);
+        ImageView imageViewWrap = findViewById(R.id.filter_imageview_wrap);
+        createImageViewWrap(imageViewWrap);
+
+        recyclerView = findViewById(R.id.filter_recyclerView_recipes);
         createRecyclerView(recyclerView);
     }
 
@@ -146,7 +150,7 @@ public class Activity_Filter extends Activity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                currentValue_RECIPE = editTextRecipeName.getText().toString();
+                valueRecipe = editTextRecipeName.getText().toString();
                 setContentIntoRecyclerView();
             }
         });
@@ -160,7 +164,7 @@ public class Activity_Filter extends Activity {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        Intent intent = new Intent(Activity_Filter.this, Activity_New_Edit_Recipe.class);
+                        Intent intent = new Intent(ActivityFilter.this, ActivityConstructor.class);
                         startActivity(intent);
                     }
                 };
@@ -171,38 +175,38 @@ public class Activity_Filter extends Activity {
 
     protected void createLinearLayoutTitle (LinearLayout linearLayoutTitle) {}
 
-    protected void createImageViewCategory (final ImageView imageView_TABLE1_COLUMN_CATEGORY){
-        imageView_TABLE1_COLUMN_CATEGORY.setOnClickListener(new View.OnClickListener() {
+    protected void createImageViewCategory (final ImageView imageViewCategory){
+        imageViewCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spinner_TABLE1_COLUMN_CATEGORY.performClick ();
-                AnimSpinnerOn(imageView_TABLE1_COLUMN_CATEGORY);
+                spinnerCategory.performClick ();
+                AnimSpinnerOn(imageViewCategory);
             }
         });
 
     }
 
-    protected void createSpinnerCategory (Spinner spinner_TABLE1_COLUMN_CATEGORY){
-        ArrayAdapter<String> adapterSpinnerCategory = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, values_TABLE1_COLUMN_CATEGORY);
+    protected void createSpinnerCategory (Spinner spinnerCategory){
+        ArrayAdapter<String> adapterSpinnerCategory = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, resourceCategory);
         adapterSpinnerCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinner_TABLE1_COLUMN_CATEGORY.setAdapter(adapterSpinnerCategory);
+        spinnerCategory.setAdapter(adapterSpinnerCategory);
 
-        spinner_TABLE1_COLUMN_CATEGORY.setOnTouchListener(new View.OnTouchListener() {
+        spinnerCategory.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 isSpinnersWereClicked = true;
                 v.performClick();
-                AnimSpinnerOn(imageView_TABLE1_COLUMN_CATEGORY);
+                AnimSpinnerOn(imageViewCategory);
                 return false;
             }
         });
 
-        spinner_TABLE1_COLUMN_CATEGORY.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(isSpinnersWereClicked) {
-                    currentValue_CATEGORY = values_TABLE1_COLUMN_CATEGORY[position];
+                    valueCategory = resourceCategory[position];
                     setContentIntoRecyclerView();
                 }
             }
@@ -212,37 +216,37 @@ public class Activity_Filter extends Activity {
         });
     }
 
-    protected void createImageViewKitchen (final ImageView imageView_TABLE1_COLUMN_KITCHEN) {
-        imageView_TABLE1_COLUMN_KITCHEN.setOnClickListener(new View.OnClickListener() {
+    protected void createImageViewKitchen (final ImageView imageViewKitchen) {
+        imageViewKitchen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spinner_TABLE1_COLUMN_KITCHEN.performClick ();
-                AnimSpinnerOn(imageView_TABLE1_COLUMN_KITCHEN);
+                spinnerKitchen.performClick ();
+                AnimSpinnerOn(imageViewKitchen);
             }
         });
     }
 
-    protected void createSpinnerKitchen (Spinner spinner_TABLE1_COLUMN_KITCHEN) {
-        ArrayAdapter<String> adapterSpinnerKitchen = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, values_TABLE1_COLUMN_KITCHEN);
+    protected void createSpinnerKitchen (Spinner spinnerKitchen) {
+        ArrayAdapter<String> adapterSpinnerKitchen = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, resourceKitchen);
         adapterSpinnerKitchen.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinner_TABLE1_COLUMN_KITCHEN.setAdapter(adapterSpinnerKitchen);
+        spinnerKitchen.setAdapter(adapterSpinnerKitchen);
 
-        spinner_TABLE1_COLUMN_KITCHEN.setOnTouchListener(new View.OnTouchListener() {
+        spinnerKitchen.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 isSpinnersWereClicked = true;
                 v.performClick();
-                AnimSpinnerOn(imageView_TABLE1_COLUMN_KITCHEN);
+                AnimSpinnerOn(imageViewKitchen);
                 return false;
             }
         });
 
-        spinner_TABLE1_COLUMN_KITCHEN.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerKitchen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(isSpinnersWereClicked) {
-                    currentValue_KITCHEN = values_TABLE1_COLUMN_KITCHEN[position];
+                    valueKitchen = resourceKitchen[position];
                     setContentIntoRecyclerView();
                 }
             }
@@ -252,42 +256,56 @@ public class Activity_Filter extends Activity {
         });
     }
 
-    protected void createImageViewPreferences (final ImageView imageView_TABLE1_COLUMN_PREFERENCES) {
-        imageView_TABLE1_COLUMN_PREFERENCES.setOnClickListener(new View.OnClickListener() {
+    protected void createImageViewPreferences (final ImageView imageViewPreferences) {
+        imageViewPreferences.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spinner_TABLE1_COLUMN_PREFERENCES.performClick ();
-                AnimSpinnerOn(imageView_TABLE1_COLUMN_PREFERENCES);
+                spinnerPreferences.performClick ();
+                AnimSpinnerOn(imageViewPreferences);
             }
         });
     }
 
-    protected void createSpinnerPreferences (Spinner spinner_TABLE1_COLUMN_PREFERENCES ) {
-        ArrayAdapter<String> adapterSpinnerPreferences = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, values_TABLE1_COLUMN_PREFERENCES);
+    protected void createSpinnerPreferences (Spinner spinnerPreferences ) {
+        ArrayAdapter<String> adapterSpinnerPreferences = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, resourcePreferences);
         adapterSpinnerPreferences.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinner_TABLE1_COLUMN_PREFERENCES.setAdapter(adapterSpinnerPreferences);
+        spinnerPreferences.setAdapter(adapterSpinnerPreferences);
 
-        spinner_TABLE1_COLUMN_PREFERENCES.setOnTouchListener(new View.OnTouchListener() {
+        spinnerPreferences.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 isSpinnersWereClicked = true;
                 v.performClick();
-                AnimSpinnerOn(imageView_TABLE1_COLUMN_PREFERENCES);
+                AnimSpinnerOn(imageViewPreferences);
                 return false;
             }
         });
 
-        spinner_TABLE1_COLUMN_PREFERENCES.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerPreferences.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(isSpinnersWereClicked) {
-                    currentValue_PREFERENCES = values_TABLE1_COLUMN_PREFERENCES[position];
+                    valuePreferences = resourcePreferences[position];
                     setContentIntoRecyclerView();
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    protected void createImageViewWrap (ImageView imageViewWrap) {
+        LinearLayout filter_linearLayout_filter = findViewById(R.id.filter_linearLayout_filter);
+
+        isOpenFilter = true;
+
+        imageViewWrap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (filter_linearLayout_filter.getVisibility() == View.GONE) filter_linearLayout_filter.setVisibility(View.VISIBLE);
+                else filter_linearLayout_filter.setVisibility(View.GONE);
             }
         });
     }
@@ -298,9 +316,9 @@ public class Activity_Filter extends Activity {
     }
 
     protected void setContentIntoRecyclerView() {
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: setContentIntoRecyclerView");
+        Log.d(ActivityMain.LOG_TAG, this.getClass() + "| method: setContentIntoRecyclerView");
 
-        recipeFilter = DB.getRecipeFilterResult(currentValue_RECIPE, currentValue_CATEGORY, currentValue_KITCHEN, currentValue_PREFERENCES);
+        recipeFilter = SQL.getRecipeFilterResult(valueRecipe, valueCategory, valueKitchen, valuePreferences);
 
         FilterAdapter filterAdapter = new FilterAdapter(recipeFilter);
         recyclerView.setAdapter(filterAdapter);
@@ -340,9 +358,9 @@ public class Activity_Filter extends Activity {
 
         public FilterViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_filter, parent,false));
-            textViewRecipeName = itemView.findViewById(R.id.Filter_result_item_textView_recipeName);
-            textViewTime = itemView.findViewById(R.id.Filter_result_item_textView_time);
-            imageViewImgTitle = itemView.findViewById(R.id.Filter_result_item_imageView_imgTitle);
+            textViewRecipeName = itemView.findViewById(R.id.item_filter_textView_name);
+            textViewTime = itemView.findViewById(R.id.item_filter_textView_time);
+            imageViewImgTitle = itemView.findViewById(R.id.item_filter_imageView_image);
             context = textViewRecipeName.getContext();
         }
 
@@ -357,24 +375,24 @@ public class Activity_Filter extends Activity {
         }
 
         protected void bindTextViewRecipeName(Table1 table1){
-            textViewRecipeName.setText("" + table1.TABLE1_COLUMN_RECIPE);
+            textViewRecipeName.setText("" + table1.recipe);
         }
 
         protected void bindTextViewTime(Table1 table1){
-            textViewTime.setText("" + table1.TABLE1_COLUMN_TIME);
+            textViewTime.setText("" + table1.time);
         }
 
         protected void bindImageViewImgTitle(Table1 table1){
-            if (table1.TABLE1_COLUMN_IMG_TITLE==null||table1.TABLE1_COLUMN_IMG_TITLE.equals("null")){
+            if (table1.imageTitle ==null||table1.imageTitle.equals("null")){
                 imageViewImgTitle.setImageResource(R.drawable.no_img);
             }
             else {
-                imageViewImgTitle.setImageURI(Uri.parse(table1.TABLE1_COLUMN_IMG_TITLE));
+                imageViewImgTitle.setImageURI(Uri.parse(table1.imageTitle));
             }
         }
 
         protected void bindItemView (Table1 table1) {
-            final int id = table1.TABLE1_COLUMN_ID;
+            final int id = table1.id;
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -392,8 +410,8 @@ public class Activity_Filter extends Activity {
         }
 
         protected void onClickItemView(int id) {
-            Intent intent = new Intent(Activity_Filter.this, Activity_Recipe.class);
-            intent.putExtra(DB.TABLE1_COLUMN_ID, String.valueOf(id));
+            Intent intent = new Intent(ActivityFilter.this, ActivityRecipe.class);
+            intent.putExtra(SQL.TABLE1_COLUMN_ID, String.valueOf(id));
             startActivity(intent);
         }
     }

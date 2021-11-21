@@ -24,7 +24,7 @@
                     android:layout_weight="1"
                     tools:ignore="NestedWeights">
             <TextView
-                    android:id="@+id/Filter_result_item_textView_recipeName"
+                    android:id="@+id/item_filter_textView_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -44,9 +44,9 @@
                         android:src="@drawable/all_activity_time"
                         tools:ignore="ContentDescription"/>
                 <TextView
+                        android:id="@+id/item_filter_textView_time"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/Filter_result_item_textView_time"
                         android:gravity="center"/>
                 <TextView
                         android:text="@string/item_filter_min"
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:background="#7F7F7F">
             <ImageView
-                    android:id="@+id/Filter_result_item_imageView_imgTitle"
+                    android:id="@+id/item_filter_imageView_image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="end"
@@ -70,7 +70,7 @@
                     tools:ignore="ContentDescription"
                     android:background="#ffffff"/>
             <ProgressBar
-                    android:id="@+id/Filter_result_item_progressBar"
+                    android:id="@+id/item_filter_progressBar_image_load"
                     style="?android:attr/progressBarStyleLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

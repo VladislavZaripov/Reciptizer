@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Рецептайзер</string>
-    <string name="activity_filter_Title">Мои рецепты</string>
+    <string name="activity_filter_title">Мои рецепты</string>
     <string name="activity_filter_filterName">Название рецепта</string>
     <string name="activity_new_recipe_title">Новый рецепт</string>
     <string name="activity_new_recipe_name_recipe">Название рецепта</string>
@@ -26,13 +26,7 @@
     <string name="activity_recipe_descriptions">Описание</string>
     <string name="item_filter_min">мин</string>
 
-    <string-array name="TABLE1_FILTER">
-        <item>Категория блюда</item>
-        <item>Кухня</item>
-        <item>Предпочтения</item>
-    </string-array>
-
-    <string-array name="TABLE1_COLUMN_CATEGORY">
+    <string-array name="category">
         <item>Все</item>
         <item>Завтрак</item>
         <item>Закуски</item>
@@ -46,7 +40,7 @@
         <item>Напитки</item>
     </string-array>
 
-    <string-array name="TABLE1_COLUMN_KITCHEN">
+    <string-array name="kitchen">
         <item>Все</item>
         <item>Русская</item>
         <item>Европейская</item>
@@ -57,7 +51,7 @@
         <item>Ближневосточная</item>
     </string-array>
 
-    <string-array name="TABLE1_COLUMN_PREFERENCES">
+    <string-array name="preferences">
         <item>Все</item>
         <item>Мясные блюда</item>
         <item>Рыбные блюда</item>
@@ -68,7 +62,7 @@
         <item>Острые блюда</item>
     </string-array>
 
-    <string-array name="TABLE2_COLUMN_MEASURE">
+    <string-array name="measure">
         <item>кг</item>
         <item>гр</item>
         <item>ст</item>
@@ -83,7 +77,7 @@
         <item>по вк</item>
     </string-array>
 
-    <string-array name="TABLE1_COLUMN_PORTION">
+    <string-array name="portion">
         <item>1</item>
         <item>2</item>
         <item>3</item>

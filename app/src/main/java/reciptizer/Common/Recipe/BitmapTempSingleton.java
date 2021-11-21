@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class BitmapTempSingleton {
 
-    private static BitmapTempSingleton instance;
+    private static BitmapTempSingleton INSTANCE;
     private Map<String, Bitmap> tempBitmap;
 
     public BitmapTempSingleton() {
@@ -26,9 +26,9 @@ public class BitmapTempSingleton {
     }
 
     public static synchronized BitmapTempSingleton getInstance() {
-        if (instance == null) {
-            instance = new BitmapTempSingleton();
+        if (INSTANCE == null) {
+            INSTANCE = new BitmapTempSingleton();
         }
-        return instance;
+        return INSTANCE;
     }
 }

@@ -2,21 +2,24 @@ package reciptizer.Common.Helpers;
 
 import android.animation.*;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import androidx.core.content.ContextCompat;
 import com.example.reciptizer.R;
 
+import java.util.ArrayList;
+
 public class AnimHelper {
 
-
-    public static void AnimNewRecipeAddEmptyRow (View view) {
+    public static void AnimConstructorAddRow(View view) {
         AnimatorSet set = new AnimatorSet();
         set.play(ObjectAnimator.ofFloat(view, View.TRANSLATION_X, -1000f, 0).setDuration(300));
         set.start();
     }
 
-    public static void AnimNewRecipeDeleteRow (View view, AnimatorListenerAdapter adapter) {
+    public static void AnimConstructorDeleteRow(View view, AnimatorListenerAdapter adapter) {
         AnimatorSet set = new AnimatorSet();
         set.play(ObjectAnimator.ofFloat(view, View.TRANSLATION_X, 0f, 1000f).setDuration(300));
         set.addListener(adapter);
@@ -42,19 +45,19 @@ public class AnimHelper {
         anim.start();
     }
 
-    public static void AnimAddButtonTable2 (View view) {
+    public static void AnimAddButtonIngredients(View view) {
         AnimatorSet set = new AnimatorSet();
         set.play(ObjectAnimator.ofFloat((View)view.getParent(), View.TRANSLATION_Y, -90f, 0f).setDuration(300));
         set.start();
     }
 
-    public static void AnimAddButtonTable3 (View view) {
+    public static void AnimAddButtonSteps(View view) {
         AnimatorSet set = new AnimatorSet();
         set.play(ObjectAnimator.ofFloat((View)view.getParent(), View.TRANSLATION_Y, -220f, 0f).setDuration(300));
         set.start();
     }
 
-    public static void AnimCreateRecipe (View view, AnimatorListenerAdapter adapter) {
+    public static void AnimCreate(View view, AnimatorListenerAdapter adapter) {
         AnimatorSet set = new AnimatorSet();
         set.playSequentially(
                 ObjectAnimator.ofFloat(view, View.ROTATION_X, 0f, 720*3f).setDuration(1000),

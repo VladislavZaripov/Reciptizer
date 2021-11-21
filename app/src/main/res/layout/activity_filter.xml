@@ -1,112 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/all_activity_background_repeat"
-    android:orientation="vertical"
-    tools:context="reciptizer.Local.Activity_Filter">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/all_activity_background_repeat"
+              android:orientation="vertical"
+              tools:context="reciptizer.Local.ActivityFilter">
+
     <LinearLayout
-        android:id="@+id/Filter_linearLayout_Title"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#090917"
-        android:orientation="horizontal">
+            android:id="@+id/filter_linearLayout_title"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#090917"
+            android:orientation="horizontal">
         <TextView
-            android:id="@+id/Filter_textView_Title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/activity_filter_Title"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp"
-            android:textStyle="bold"/>
-        <Button
-            android:id="@+id/Filter_button_newRecipe"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/tullbar_newrecipe"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="horizontal"
-        android:focusableInTouchMode="true">
-        <EditText
-                android:id="@+id/Filter_editText_recipeName"
+                android:id="@+id/filter_textView_title"
                 android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
                 android:layout_weight="1"
-                android:background="@drawable/search_name"
+                android:layout_gravity="center"
                 android:gravity="center"
-                android:inputType="textMultiLine"
-                android:paddingStart="60dp"
-                android:paddingEnd="60dp"
-                android:text="@string/activity_filter_filterName"
-                android:textSize="22sp"
-                tools:ignore="Autofill,LabelFor"/>
+                android:text="@string/activity_filter_title"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+        <Button
+                android:id="@+id/filter_button_new"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/tullbar_newrecipe"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
-        android:orientation="vertical">
-        <ImageView
-                android:id="@+id/Filter_imageView_category"
-                android:layout_width="260dp"
-                android:layout_height="50dp"
-                android:src="@drawable/all_activity_title_category"
-                tools:ignore="ContentDescription"/>
-        <Spinner
-            android:id="@+id/Filter_spinner_category"
+            android:id="@+id/filter_linearLayout_filter"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginStart="50dp"
-            android:background="@drawable/all_activity_category"
-            android:spinnerMode="dropdown"/>
-        <ImageView
-            android:id="@+id/Filter_imageView_kitchen"
-            android:layout_width="260dp"
-            android:layout_height="50dp"
-            android:src="@drawable/all_activity_title_kitchen"
-            tools:ignore="ContentDescription"/>
-        <Spinner
-            android:id="@+id/Filter_spinner_kitchen"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginStart="50dp"
-            android:background="@drawable/all_activity_kitchen"
-            android:spinnerMode="dropdown"/>
-        <ImageView
-                android:id="@+id/Filter_imageView_preferences"
-                android:layout_width="260dp"
-                android:layout_height="50dp"
-                android:src="@drawable/all_activity_title_preferences"
-                tools:ignore="ContentDescription"/>
-        <Spinner
-            android:id="@+id/Filter_spinner_preferences"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginStart="50dp"
-            android:background="@drawable/all_activity_preferences"
-            android:spinnerMode="dropdown"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:focusableInTouchMode="true">
+            <EditText
+                    android:id="@+id/filter_editText_name"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_name"
+                    android:gravity="center"
+                    android:inputType="textMultiLine"
+                    android:paddingStart="60dp"
+                    android:paddingEnd="60dp"
+                    android:text="@string/activity_filter_filterName"
+                    android:textSize="22sp"
+                    tools:ignore="Autofill,LabelFor"/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical">
+            <ImageView
+                    android:id="@+id/filter_imageView_category"
+                    android:layout_width="260dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/all_activity_title_category"
+                    tools:ignore="ContentDescription"/>
+            <Spinner
+                    android:id="@+id/filter_spinner_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="50dp"
+                    android:background="@drawable/all_activity_category"
+                    android:spinnerMode="dropdown"/>
+            <ImageView
+                    android:id="@+id/filter_imageView_kitchen"
+                    android:layout_width="260dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/all_activity_title_kitchen"
+                    tools:ignore="ContentDescription"/>
+            <Spinner
+                    android:id="@+id/filter_spinner_kitchen"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="50dp"
+                    android:background="@drawable/all_activity_kitchen"
+                    android:spinnerMode="dropdown"/>
+            <ImageView
+                    android:id="@+id/filter_imageView_preferences"
+                    android:layout_width="260dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/all_activity_title_preferences"
+                    tools:ignore="ContentDescription"/>
+            <Spinner
+                    android:id="@+id/filter_spinner_preferences"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="50dp"
+                    android:background="@drawable/all_activity_preferences"
+                    android:spinnerMode="dropdown"/>
+        </LinearLayout>
     </LinearLayout>
     <ImageView
+            android:id="@+id/filter_imageview_wrap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/separator"
             tools:ignore="ContentDescription"/>
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/Filter_recyclerView"
+            android:id="@+id/filter_recyclerView_recipes"
             android:layout_width="match_parent"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"

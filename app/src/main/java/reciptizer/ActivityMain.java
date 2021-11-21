@@ -14,19 +14,19 @@ import android.os.Bundle;
 import android.content.Context;
 import android.graphics.Typeface;
 import com.example.reciptizer.R;
-import reciptizer.Local.Activity_Filter;
-import reciptizer.Server.Activity_Filter_Server;
-import reciptizer.Local.DB;
-
+import reciptizer.Local.ActivityFilter;
+import reciptizer.Server.ActivityFilterServer;
+import reciptizer.Local.SQL;
 import java.lang.reflect.Field;
 
 import static reciptizer.Common.Helpers.AnimHelper.AnimMainButton;
+import static reciptizer.Local.SQL.DB_NAME;
 
-public class Activity_Main extends Activity {
+public class ActivityMain extends Activity {
 
     public static final String LOG_TAG = "myLogs";
-    public DB db;
-    Button button1, button2;
+    public SQL SQL;
+    Button buttonServer, buttonLocal;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -34,24 +34,24 @@ public class Activity_Main extends Activity {
         setContentView(R.layout.activity_main);
 
         openDB();
-        Log.d(Activity_Main.LOG_TAG,"Main_openDB: path: " + getDatabasePath(DB.DB_NAME).getAbsolutePath());
+        Log.d(ActivityMain.LOG_TAG,"Main_openDB: path: " + getDatabasePath(DB_NAME).getAbsolutePath());
         overrideFont(getApplicationContext(), "SANS_SERIF", "fonts/Gabriela-Regular.ttf");
-        Log.d(Activity_Main.LOG_TAG,"Main_overrideFont");
+        Log.d(ActivityMain.LOG_TAG,"Main_overrideFont");
         prepareColorBar();
-        Log.d(Activity_Main.LOG_TAG,"Main_prepareColorBar");
+        Log.d(ActivityMain.LOG_TAG,"Main_prepareColorBar");
         prepareActivity();
-        Log.d(Activity_Main.LOG_TAG,"Main_prepareActivity");
+        Log.d(ActivityMain.LOG_TAG,"Main_prepareActivity");
     }
 
     @Override
     protected void onDestroy () {
         super.onDestroy();
-        db.close();
+        SQL.close();
     }
 
     public void openDB (){
-        db = new DB(this);
-        db.open();
+        SQL = new SQL(this);
+        SQL.open();
     }
 
     public static void overrideFont (Context context, String defaultFontNameToOverride, String customFontFileNameInAssets) {
@@ -73,34 +73,34 @@ public class Activity_Main extends Activity {
     }
 
     private void prepareActivity () {
-        button1 = findViewById(R.id.Main_button1);
-        button1.setOnClickListener(new View.OnClickListener() {
+        buttonServer = findViewById(R.id.main_button_server);
+        buttonServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AnimatorListenerAdapter adapter = new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        Intent intent = new Intent(Activity_Main.this, Activity_Filter_Server.class);
+                        Intent intent = new Intent(ActivityMain.this, ActivityFilterServer.class);
                         startActivity(intent);
                     }
                 };
-                AnimMainButton(button1, adapter);
+                AnimMainButton(buttonServer, adapter);
             }
         });
-        button2 = findViewById(R.id.Main_button2);
-        button2.setOnClickListener(new View.OnClickListener() {
+        buttonLocal = findViewById(R.id.main_button_local);
+        buttonLocal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AnimatorListenerAdapter adapter = new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        Intent intent = new Intent(Activity_Main.this, Activity_Filter.class);
+                        Intent intent = new Intent(ActivityMain.this, ActivityFilter.class);
                         startActivity(intent);
                     }
                 };
-                AnimMainButton(button2, adapter);
+                AnimMainButton(buttonLocal, adapter);
             }
         });
     }

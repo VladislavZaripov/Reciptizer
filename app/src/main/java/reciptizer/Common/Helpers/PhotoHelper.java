@@ -12,7 +12,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 import androidx.core.content.FileProvider;
-import reciptizer.Activity_Main;
+import reciptizer.ActivityMain;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -83,28 +83,28 @@ public class PhotoHelper {
         boolean result = false;
         if(fileCamera != null)
             result = fileCamera.delete();
-        Log.d(Activity_Main.LOG_TAG, "FullJPEGCamera delete: " + result);
+        Log.d(ActivityMain.LOG_TAG, "FullJPEGCamera delete: " + result);
         fileCamera = null;
     }
     public void deleteFileLoad() {
         boolean result = false;
         if(fileLoad != null)
             result = fileLoad.delete();
-        Log.d(Activity_Main.LOG_TAG, "FullJPEGLoad delete: " + result);
+        Log.d(ActivityMain.LOG_TAG, "FullJPEGLoad delete: " + result);
         fileLoad = null;
     }
     public void deleteFileTemp() {
         boolean result = false;
         if(fileTemp != null)
             result = fileTemp.delete();
-        Log.d(Activity_Main.LOG_TAG, "tempFullJpegCamera delete: " + result);
+        Log.d(ActivityMain.LOG_TAG, "tempFullJpegCamera delete: " + result);
         fileTemp = null;
     }
     public void deleteFileImageView() {
         boolean result = false;
         if(fileImageView != null)
             result = fileImageView.delete();
-        Log.d(Activity_Main.LOG_TAG, "DecodePngForImageView delete: " + result);
+        Log.d(ActivityMain.LOG_TAG, "DecodePngForImageView delete: " + result);
         fileImageView = null;
     }
     public void deleteFileAll() {
@@ -119,7 +119,7 @@ public class PhotoHelper {
         if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoURI(tempFile));
                 activity.startActivityForResult(takePictureIntent, requestCode);
-                Log.d(Activity_Main.LOG_TAG,"Camera is intended");
+                Log.d(ActivityMain.LOG_TAG,"Camera is intended");
         }
     }
     public void intentLoader(int requestCode) {
@@ -127,7 +127,7 @@ public class PhotoHelper {
         if (photoPickerIntent.resolveActivity(activity.getPackageManager()) != null) {
                 photoPickerIntent.setType("image/*");
                 activity.startActivityForResult(photoPickerIntent, requestCode);
-                Log.d(Activity_Main.LOG_TAG,"Loader is intended");
+                Log.d(ActivityMain.LOG_TAG,"Loader is intended");
         }
     }
 
@@ -139,11 +139,11 @@ public class PhotoHelper {
             File storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             file = File.createTempFile(imageFileName, "." + format, storageDir);
 
-            Log.d(Activity_Main.LOG_TAG,"File is created: " + file);
+            Log.d(ActivityMain.LOG_TAG,"File is created: " + file);
         }
         catch (IOException e) {
             e.printStackTrace();
-            Log.d(Activity_Main.LOG_TAG,"File is not created");
+            Log.d(ActivityMain.LOG_TAG,"File is not created");
         }
         return file;
     }
@@ -153,11 +153,11 @@ public class PhotoHelper {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             fOut.flush();
             fOut.close();
-            Log.d(Activity_Main.LOG_TAG,"File was saved");
+            Log.d(ActivityMain.LOG_TAG,"File was saved");
         }
         catch (Exception e) {
             e.printStackTrace();
-            Log.d(Activity_Main.LOG_TAG,"PNGFile wasn't saved");
+            Log.d(ActivityMain.LOG_TAG,"PNGFile wasn't saved");
         }
     }
 
@@ -210,7 +210,7 @@ public class PhotoHelper {
             final int widthRatio = Math.round((float) width / (float) reqWidth);
             inSampleSize = Math.min(heightRatio, widthRatio);
         }
-        Log.d(Activity_Main.LOG_TAG,"calculateBitmapSize: " + inSampleSize);
+        Log.d(ActivityMain.LOG_TAG,"calculateBitmapSize: " + inSampleSize);
 
 
         return inSampleSize;

@@ -1,19 +1,19 @@
 package reciptizer.Common.Recipe;
 
 public class Table2Row {
-    public Integer TABLE2_COLUMN_ID;
-    public Integer TABLE2_COLUMN_ID_RECIPE;
-    public String TABLE2_COLUMN_INGREDIENTS;
-    public Integer TABLE2_COLUMN_QUANTITY;
-    public String TABLE2_COLUMN_MEASURE;
+    public Integer id;
+    public Integer idRecipe;
+    public String ingredient;
+    public Integer quantity;
+    public String measure;
 
-    public Table2Row(Integer TABLE2_COLUMN_ID, Integer TABLE2_COLUMN_ID_RECIPE,
-                     String TABLE2_COLUMN_INGREDIENTS, Integer TABLE2_COLUMN_QUANTITY,
-                     String TABLE2_COLUMN_MEASURE) {
-        this.TABLE2_COLUMN_ID = TABLE2_COLUMN_ID;
-        this.TABLE2_COLUMN_ID_RECIPE = TABLE2_COLUMN_ID_RECIPE;
-        this.TABLE2_COLUMN_INGREDIENTS = TABLE2_COLUMN_INGREDIENTS;
-        this.TABLE2_COLUMN_QUANTITY = TABLE2_COLUMN_QUANTITY;
-        this.TABLE2_COLUMN_MEASURE = TABLE2_COLUMN_MEASURE;
+    public Table2Row(Integer id, Integer idRecipe,
+                     String ingredient, Integer quantity,
+                     String measure) {
+        this.id = id;
+        this.idRecipe = idRecipe;
+        this.ingredient = ingredient;
+        this.quantity = quantity;
+        this.measure = measure;
     }
 }

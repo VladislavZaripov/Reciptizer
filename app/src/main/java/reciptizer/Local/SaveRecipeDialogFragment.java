@@ -16,13 +16,13 @@ public class SaveRecipeDialogFragment extends DialogFragment{
         String setDialogTitle();
     }
 
-    SaveRecipeDialogListener mListener;
+    SaveRecipeDialogListener listener;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            mListener = (SaveRecipeDialogListener) context;
+            listener = (SaveRecipeDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement SaveRecipeDialogListener");
         }
@@ -32,12 +32,12 @@ public class SaveRecipeDialogFragment extends DialogFragment{
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
-        adb.setTitle(mListener.setDialogTitle());
+        adb.setTitle(listener.setDialogTitle());
         adb.setIcon(android.R.drawable.ic_dialog_info);
         adb.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mListener.onSaveRecipeDialogPositiveClick(SaveRecipeDialogFragment.this);
+                listener.onSaveRecipeDialogPositiveClick(SaveRecipeDialogFragment.this);
             }
         });
         adb.setNegativeButton("Нет", new DialogInterface.OnClickListener() {

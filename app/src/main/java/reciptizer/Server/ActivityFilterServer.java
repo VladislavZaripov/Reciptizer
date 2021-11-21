@@ -14,16 +14,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.reciptizer.R;
 import org.json.JSONObject;
-import reciptizer.Activity_Main;
+import reciptizer.ActivityMain;
 import reciptizer.Common.Helpers.JsonHelper;
 import reciptizer.Common.Recipe.BitmapTempSingleton;
 import reciptizer.Common.Recipe.RecipeFilter;
 import reciptizer.Common.Recipe.Table1;
-import reciptizer.Local.Activity_Filter;
-import reciptizer.Local.DB;
+import reciptizer.Local.ActivityFilter;
+import reciptizer.Local.SQL;
 import java.util.ArrayList;
 
-public class Activity_Filter_Server  extends Activity_Filter {
+public class ActivityFilterServer extends ActivityFilter {
 
     @Override
     protected void setStatusBarColor(int colorForStatusBar, int ColorForNavigationBar) {
@@ -62,7 +62,7 @@ public class Activity_Filter_Server  extends Activity_Filter {
 
     @Override
     protected void setContentIntoRecyclerView() {
-        Log.d(Activity_Main.LOG_TAG, this.getClass() + "| method: setContentIntoRecyclerView");
+        Log.d(ActivityMain.LOG_TAG, this.getClass() + "| method: setContentIntoRecyclerView");
 
         if (recipeFilter==null) {
             Response.Listener<JSONObject> listener = new Response.Listener<JSONObject>() {
@@ -80,10 +80,10 @@ public class Activity_Filter_Server  extends Activity_Filter {
             RecipeFilter refreshRecipeFilter = new RecipeFilter(new ArrayList<Table1>());
             for(Table1 table : recipeFilter.table1)
             {
-                if ((table.TABLE1_COLUMN_RECIPE.toLowerCase().contains(currentValue_RECIPE.toLowerCase()) || currentValue_RECIPE.equals("Название рецепта")) &&
-                        (table.TABLE1_COLUMN_CATEGORY.equals(currentValue_CATEGORY) || currentValue_CATEGORY.equals("Все")) &&
-                        (table.TABLE1_COLUMN_KITCHEN.equals(currentValue_KITCHEN) || currentValue_KITCHEN.equals("Все")) &&
-                        (table.TABLE1_COLUMN_PREFERENCES.equals(currentValue_PREFERENCES) || currentValue_PREFERENCES.equals("Все")))
+                if ((table.recipe.toLowerCase().contains(valueRecipe.toLowerCase()) || valueRecipe.equals("Название рецепта")) &&
+                        (table.category.equals(valueCategory) || valueCategory.equals("Все")) &&
+                        (table.kitchen.equals(valueKitchen) || valueKitchen.equals("Все")) &&
+                        (table.preferences.equals(valuePreferences) || valuePreferences.equals("Все")))
                     refreshRecipeFilter.table1.add(table);
             }
             FilterServerAdapter filterServerAdapter = new FilterServerAdapter(refreshRecipeFilter);
@@ -125,16 +125,16 @@ public class Activity_Filter_Server  extends Activity_Filter {
 
         @Override
         protected void bindImageViewImgTitle(Table1 table1) {
-            final String imgName = table1.TABLE1_COLUMN_IMG_TITLE;
+            final String imgName = table1.imageTitle;
 
             if(BitmapTempSingleton.getInstance().getTempBitmap().containsKey(imgName))
                 imageViewImgTitle.setImageBitmap(BitmapTempSingleton.getInstance().getTempBitmap().get(imgName));
             else {
                 View view = (View) imageViewImgTitle.getParent();
-                final ProgressBar progressBar = view.findViewById(R.id.Filter_result_item_progressBar);
+                final ProgressBar progressBar = view.findViewById(R.id.item_filter_progressBar_image_load);
                 imageViewImgTitle.setImageResource(R.drawable.no_img);
 
-                if (table1.TABLE1_COLUMN_IMG_TITLE != null && !table1.TABLE1_COLUMN_IMG_TITLE.equals("null")) {
+                if (table1.imageTitle != null && !table1.imageTitle.equals("null")) {
                     progressBar.setVisibility(View.VISIBLE);
                     Response.Listener<byte[]> listener = new Response.Listener<byte[]>() {
                         @Override
@@ -167,8 +167,8 @@ public class Activity_Filter_Server  extends Activity_Filter {
 
         @Override
         protected void onClickItemView(int id) {
-            Intent intent = new Intent(Activity_Filter_Server.this, Activity_Recipe_Server.class);
-            intent.putExtra(DB.TABLE1_COLUMN_ID, String.valueOf(id));
+            Intent intent = new Intent(ActivityFilterServer.this, ActivityRecipeServer.class);
+            intent.putExtra(SQL.TABLE1_COLUMN_ID, String.valueOf(id));
             startActivity(intent);
         }
     }

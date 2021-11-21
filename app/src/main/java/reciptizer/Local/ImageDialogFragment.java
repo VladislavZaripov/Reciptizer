@@ -22,24 +22,24 @@ import java.util.Objects;
 
 public class ImageDialogFragment extends DialogFragment {
 
-    protected String img_jpeg;
-    protected String img_png;
+    protected String imgFull;
+    protected String imgTitle;
     protected ImageView imageViewJpeg;
     private ProgressBar progressBar;
 
-    public ImageDialogFragment(String img_jpeg, String img_png) {
-        this.img_jpeg = img_jpeg;
-        this.img_png = img_png;
+    public ImageDialogFragment(String imgFull, String imgTitle) {
+        this.imgFull = imgFull;
+        this.imgTitle = imgTitle;
     }
 
     public ImageDialogFragment(PhotoHelper photoHelper) {
         if (photoHelper.getFileLoad()!=null) {
-            img_jpeg = photoHelper.getFileLoad().getPath();
-            img_png = photoHelper.getFileImageView().getPath();
+            imgFull = photoHelper.getFileLoad().getPath();
+            imgTitle = photoHelper.getFileImageView().getPath();
         }
         if (photoHelper.getFileCamera()!=null){
-            img_jpeg = photoHelper.getFileCamera().getPath();
-            img_png = photoHelper.getFileImageView().getPath();
+            imgFull = photoHelper.getFileCamera().getPath();
+            imgTitle = photoHelper.getFileImageView().getPath();
         }
     }
 
@@ -47,11 +47,11 @@ public class ImageDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        ConstraintLayout view = (ConstraintLayout) Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_recipe_photo, null);
-        imageViewJpeg = view.findViewById(R.id.Dialog_recipe_jpeg);
-        progressBar = view.findViewById(R.id.Dialog_recipe_progressBar);
+        ConstraintLayout view = (ConstraintLayout) Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_image, null);
+        imageViewJpeg = view.findViewById(R.id.dialog_image_imageView_image);
+        progressBar = view.findViewById(R.id.dialog_image_progressBar_image_load);
 
-        if (img_jpeg == null||img_jpeg.equals("null"))
+        if (imgFull == null|| imgFull.equals("null"))
             imageViewJpeg.setImageResource(R.drawable.no_img);
         else {
             setImageDialog();
@@ -74,12 +74,12 @@ public class ImageDialogFragment extends DialogFragment {
         @Override
         protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);
-            imageViewJpeg.setImageURI(Uri.parse(img_png));
+            imageViewJpeg.setImageURI(Uri.parse(imgTitle));
         }
 
         @Override
         protected Void doInBackground(Void[] strings) {
-            bitmap = BitmapFactory.decodeFile(img_jpeg);
+            bitmap = BitmapFactory.decodeFile(imgFull);
             return null;
         }
 
